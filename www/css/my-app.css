@@ -1,0 +1,135 @@
+body {
+font-family: lato;
+}
+
+.polaroid  {
+text-align:center;
+font-family: 'Reenie Beanie', cursive; /*Reenie Beanie is available through Google Webfonts http://code.google.com/webfonts/specimen/Reenie+Beanie*/
+font-size:1.3em;
+color:#454f40;
+letter-spacing:0.09em;
+}
+/* Button designs */
+
+.but-nope, .but-yay, .nopes, .yays {
+  display: none;
+}
+
+.tinderesque .but-nope, .tinderesque .but-yay,
+.tinderesque .nopes, .tinderesque .yays {
+  display: inline-block;
+}
+
+.cardcontainer {
+	text-align:center;
+}
+
+.cardcontainer button {
+
+  background: #4cd964;
+  border: none;
+  color: #fff;
+  border-radius: 50% 50%;
+  width: 70px;
+  height: 70px;
+  line-height: 30px;
+  margin: 0 .5em;
+  margin-top: 20px;
+  display: inline-block;
+  font-size: 30px;
+  -webkit-box-shadow: 0 3px 6px rgba(0,0,0,.25);
+  -moz-box-shadow: 0 3px 6px rgba(0,0,0,.25);
+}
+.cardcontainer button:focus {
+  outline: 0;
+  background: #0f0;
+}
+.cardcontainer .but-nope {
+  background: #ff3b30;
+}
+
+.cardcontainer .but-info {
+  background: #03a9f4;
+  width: 50px;
+  height: 50px;
+}
+.cardcontainer .but-nope:focus {
+  outline: 0;
+  background: #f00;
+}
+
+.tinderesque .cardcontainer.yes .card {
+  -webkit-animation: yay 0.7s ease-out;
+  animation: yay 0.7s ease-out;
+}
+.tinderesque .cardcontainer.nope .card {
+  -webkit-animation: nope 0.7s ease-out;
+  animation: nope 0.7s ease-out;
+}
+
+#username {
+	margin-top: -12px;
+	font-size: 18px;
+	margin-left: 30px;
+	text-align: left;
+}
+
+#college {
+	text-align: left;
+	color: grey;
+	margin-left: 30px;
+	margin-top: -15px;
+}
+
+.card {
+  margin-left: -20px;
+  width: 100%;
+  position: relative;
+  height: 70vh;
+  display: block;
+  transform-origin: 50% 99%;
+  -webkit-box-shadow: 0 3px 6px rgba(0,0,0,.25);
+  -moz-box-shadow: 0 3px 6px rgba(0,0,0,.25);
+}
+
+.card img {
+padding: 10px;
+	width: 100%;
+	height: 85%;
+}
+
+@keyframes yay {
+  from {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: rotate(40deg) translateY(-80px);
+    opacity: 0;
+  }
+}
+
+@keyframes nope {
+  from {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: rotate(-40deg) translateY(-80px);
+    opacity: 0;
+  }
+}
+
+.cardcontainer.yes .card {
+  animation: yay 0.7s ease-out;
+}
+.cardcontainer.nope .card {
+  animation: nope 0.7s ease-out;
+}
+
+.list .card {
+  display: none;
+}
+.list .current {
+  display: block;
+}

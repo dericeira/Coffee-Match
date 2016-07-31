@@ -1,0 +1,39 @@
+html, body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    position: relative;
+	font-family: lato;
+}
+
+body {
+    overflow: hidden;
+}
+
+.logo {
+text-align:center;
+font-family: 'Reenie Beanie', cursive; /*Reenie Beanie is available through Google Webfonts http://code.google.com/webfonts/specimen/Reenie+Beanie*/
+font-size:1.3em;
+color:#454f40;
+letter-spacing:0.09em;
+}
+
+#dislike {
+	background: #ff3b30 !important;
+	color: white;
+	font-size: 55px;
+	padding-top: 5px;
+}
+
+#like {
+	background: #4cd964 !important;
+	color: white;
+	font-size: 55px;
+	padding-top: 5px;
+}
+
+.username {
+	margin-top: 0px;
+	text-align: left;
+}
+

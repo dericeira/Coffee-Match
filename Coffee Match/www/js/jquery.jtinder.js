@@ -10,8 +10,8 @@
 ;(function ($, window, document, undefined) {
 	var pluginName = "jTinder",
 		defaults = {
-			onDislike: null,
-			onLike: null,
+			onDislike: function(){},
+			onLike: function(){},
 			animationRevertSpeed: 200,
 			animationSpeed: 400,
 			threshold: 1,
@@ -62,8 +62,8 @@
 		},
 
 		dislike: function() {
-			
-			panes.eq(current_pane).animate({"transform": "translate(-" + (pane_width) + "px," + (pane_width*-1.5) + "px) rotate(-60deg)"}, $that.settings.animationSpeed, function () {
+			panes.eq(current_pane).find($that.settings.dislikeSelector).css('opacity', 1);
+			panes.eq(current_pane).animate({"transform": "translate(-" + (pane_width) + "px," + (pane_width*-1.5) + "px) rotate(-60deg)"}, $that.settings.animationSpeed, function () {	
 				if($that.settings.onDislike) {
 					$that.settings.onDislike(panes.eq(current_pane));
 				}
@@ -72,6 +72,7 @@
 		},
 
 		like: function() {
+			panes.eq(current_pane).find($that.settings.likeSelector).css('opacity', 1);
 			panes.eq(current_pane).animate({"transform": "translate(" + (pane_width) + "px," + (pane_width*-1.5) + "px) rotate(60deg)"}, $that.settings.animationSpeed, function () {
 				if($that.settings.onLike) {
 					$that.settings.onLike(panes.eq(current_pane));
@@ -117,7 +118,6 @@
 							panes.eq(current_pane).find($that.settings.likeSelector).css('opacity', opa);
 							panes.eq(current_pane).find($that.settings.dislikeSelector).css('opacity', 0);
 						} else if (posX < 0) {
-
 							panes.eq(current_pane).find($that.settings.dislikeSelector).css('opacity', opa);
 							panes.eq(current_pane).find($that.settings.likeSelector).css('opacity', 0);
 						}
@@ -146,7 +146,7 @@
 						} else {
 							panes.eq(current_pane).animate({"transform": "translate(-" + (pane_width) + "px," + (posY + pane_width) + "px) rotate(-60deg)"}, $that.settings.animationSpeed, function () {
 								if($that.settings.onDislike) {
-									$that.settings.onDislike(panes.eq(current_pane));
+									$that.settings.onLike(panes.eq(current_pane));
 								}
 								$that.next();
 							});

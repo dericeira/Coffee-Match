@@ -38,12 +38,12 @@
         <!-- Top Navbar-->
         <div class="navbar">
           <div class="navbar-inner">
-		    <div class="left">
-              <a href="#" class="link icon-only open-panel color-gray"><i class="icon icon-bars color-gray"></i></a>
-            </div>
+		    
             <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
             <div class="logo">COFFEE MATCH</div>
-     		
+     		<div class="right">
+              <a href="#" class="link icon-only open-panel color-gray"><i class="icon icon-bars color-gray"></i></a>
+            </div>
           </div>
         </div>
         <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
@@ -57,34 +57,18 @@
 				<div class="wrap">
 					<!-- start jtinder container -->
 					<div id="tinderslide">
-						<ul>
-							<li class="pane1">
-								<div class="img"></div>
-								<div>Miami Beach</div>
+						<ul>							
+							<li class="next">
+								<img class="img" src="img/amanda.jpg" />
+								<p class="username"><b>Amanda</b>, 24<br>Marketing</p>
+								<p class="friends"><img src="img/friends.png" /> 10</p>
 								<div class="like"></div>
 								<div class="dislike"></div>
 							</li>
-							<li class="pane2">
-								<div class="img"></div>
-								<div>San Francisco</div>
-								<div class="like"></div>
-								<div class="dislike"></div>
-							</li>
-							<li class="pane3">
-								<div class="img"></div>
-								<div>Chicago</div>
-								<div class="like"></div>
-								<div class="dislike"></div>
-							</li>
-							<li class="pane4">
-								<div class="img"></div>
-								<div>New York</div>
-								<div class="like"></div>
-								<div class="dislike"></div>
-							</li>
-							<li class="pane5">
-								<div class="img"></div>
-								<p class="username"><b>Amanda</b>, 26</p>
+							<li class="current">
+								<img class="img" src="img/amanda.jpg" />
+								<p class="username"><b>Amanda</b>, 25<br>Marketing</p>
+								<p class="friends"><img src="img/friends.png" /> 10</p>
 								<div class="like"></div>
 								<div class="dislike"></div>
 							</li>
@@ -93,12 +77,12 @@
 					<!-- end jtinder container -->
 				</div>
 				<!-- end padding container -->
-
-				<!-- jTinder trigger by buttons  -->
-				<div class="actions">
-					<a href="#" id="dislike" class="dislike">X</a>
-					<a href="#" id="like" class="like">✔</a>
+				
+				<div id="search-box">
+					<img class="profile-photo" src="img/paulo-henrique.png" />
+					<p class="search-text">Searching...</p>
 				</div>
+				
 
             </div>
           </div>
@@ -108,6 +92,7 @@
     </div>
 	<!-- jQuery lib -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script   src="https://code.jquery.com/ui/1.9.1/jquery-ui.min.js"></script>
     <!-- transform2d lib -->
     <script type="text/javascript" src="js/jquery.transform2d.js"></script>
     <!-- jTinder lib -->

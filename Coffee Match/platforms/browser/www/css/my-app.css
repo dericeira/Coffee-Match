@@ -33,7 +33,65 @@ letter-spacing:0.09em;
 }
 
 .username {
-	margin-top: 0px;
+	margin-top: -5px;
 	text-align: left;
+	font-size: 20px;
+	float: left;
+}
+
+.friends {
+	color: gray;
+	margin-top: -5px;
+	font-size: 20px;
+	float: right;
+}
+
+.profile-photo {
+    display: block;
+    width: 120px;
+    height: 120px;
+    margin-top: -57px;
+    margin-left: -57px;
+    -webkit-border-radius: 80px;
+    -moz-border-radius: 80px;    
+    border-radius: 80px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    overflow: hidden;
+}
+
+#search-box {
+	display: none;
+}
+
+.search-text {
+	display: block;
+    margin-top: -190px;
+    margin-left: -50px;
+    position: absolute;
+    bottom: 10%;
+    left: 42%;
+    z-index: 1;
+	font-size: 40px;
+    overflow: hidden;
+}
+
+.circle {
+    width: 0px;
+    height: 0px;
+    margin-top: 0px;
+    margin-left: 0px;
+    border: 4px solid #8e44ad;
+    -webkit-border-radius: 300px;
+    -moz-border-radius: 300px;    
+    border-radius: 300px;
+    background: #9b59b6;
+    opacity: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 0;
 }
 

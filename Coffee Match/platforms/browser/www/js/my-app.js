@@ -1,7 +1,7 @@
 // Initialize app
-var myApp = new Framework7(
-	
-);
+var myApp = new Framework7({
+    
+});
  
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
@@ -27,20 +27,6 @@ $('.actions .like, .actions .dislike').bind('click touchstart', function(e){
 	$("#tinderslide").jTinder($(this).attr('class'));
 });
 
-function addCircle() {
-        var $circle = $('<div class="circle"></div>');
-        $circle.animate({
-            'width': '600px',
-            'height': '600px',
-            'margin-top': '-300px',
-            'margin-left': '-300px',
-            'opacity': '0'
-        }, 3000, 'easeOutCirc');
-        $('#search-box').append($circle);
-    
-        setTimeout(function __remove() {
-            $circle.remove();
-        }, 5000);
-    }
-    addCircle();
-    setInterval(addCircle, 1000);
+
+
+	

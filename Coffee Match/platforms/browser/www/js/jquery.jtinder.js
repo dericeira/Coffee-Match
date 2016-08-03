@@ -118,7 +118,6 @@
 							panes.eq(current_pane).find($that.settings.likeSelector).css('opacity', opa);
 							panes.eq(current_pane).find($that.settings.dislikeSelector).css('opacity', 0);
 						} else if (posX < 0) {
-
 							panes.eq(current_pane).find($that.settings.dislikeSelector).css('opacity', opa);
 							panes.eq(current_pane).find($that.settings.likeSelector).css('opacity', 0);
 						}

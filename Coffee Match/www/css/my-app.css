@@ -13,12 +13,21 @@ body {
 .logo {
 text-align:center;
 font-family: 'Reenie Beanie', cursive; /*Reenie Beanie is available through Google Webfonts http://code.google.com/webfonts/specimen/Reenie+Beanie*/
-font-size:1.3em;
+font-size: 1.5em;
 color: white;
 letter-spacing:0.09em;
 }
 
-.content-block {
+.big-logo {
+text-align:center;
+font-family: 'Reenie Beanie', cursive; /*Reenie Beanie is available through Google Webfonts http://code.google.com/webfonts/specimen/Reenie+Beanie*/
+font-size: 40px;
+color: white;
+letter-spacing:0.09em;
+box-shadow: 2px solid white;
+}
+
+.navigation-drawer {
 	padding: 0px !important;
 	margin: 0px !important;
 	height: 100%;

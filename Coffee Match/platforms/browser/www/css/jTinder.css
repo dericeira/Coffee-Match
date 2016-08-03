@@ -1,8 +1,9 @@
 /* Estilo do jTinder */
 /* Wrapper with padding */
 .wrap  {
-    height: 83vh;
+    height: 80vh;
     padding: 5%;
+	
 }
 
 #tinderslide {
@@ -52,7 +53,9 @@
     -moz-transform: rotate(-1deg);
     -o-transform: rotate(-1deg);
     -ms-transform: rotate(-1deg);
-    transform: rotate(-1deg);
+    transform: rotate(-2deg);
+	border-radius: 5px;
+	
 }
 
 #tinderslide li.current {
@@ -60,7 +63,10 @@
     -moz-transform: rotate(2deg);
     -o-transform: rotate(2deg);
     -ms-transform: rotate(2deg);
-    transform: rotate(2deg);
+    transform: rotate(0deg);
+	margin-top: 12px;
+	border-radius: 5px;
+	
 }
 
 /* Like & dislike badge images */
@@ -88,11 +94,12 @@
     right: 45px;
     left: auto;
     background: url("../img/nope.png") no-repeat scroll 0 0;
+	
 }
 
 /* Image container */
 #tinderslide .img {
-    height: 83%;
+    height: 75%;
     width: 100%;
     margin-bottom: 5px;
     position: relative;

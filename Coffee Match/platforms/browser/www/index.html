@@ -81,10 +81,9 @@
     </div>
     <!-- Views -->
     <div class="views">
-      <!-- Your main view, should have "view-main" class -->
       <div class="view view-main">
         <!-- Top Navbar-->
-        <div class="navbar" style="background-color: #8D7A4B">
+        <div id="invisible-nav" class="navbar navbar-hidden" style="background-color: #8D7A4B">
           <div class="navbar-inner">
 		    
             <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
@@ -100,7 +99,8 @@
           <div data-page="index" class="page">
             <!-- Scrollable page content -->
             <div class="page-content" style="background: #F7F7F7">
-				
+				<!-- CONTAINER QUE OCULTA A PÁGINA -->
+				<div id="invisible-container" class="none">
 				 <!-- start padding container -->
 				<div class="wrap">
 					<!-- start jtinder container -->
@@ -137,24 +137,13 @@
 					<p class="search-text">Finding people nearby...</p>
 				</div>
 				
-				
+				</div>
 
             </div>
           </div>
         </div>
 		
-		<!-- 
-		<div class="toolbar tabbar" style="background: #EBCF95">
-			<div class="toolbar-inner">
-				<a href="#tab1" class="tab-link active">
-			   <img class="icon icons8-Delete-Filled" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABv0lEQVRoQ+2ZwVHEMAxFpQqglJQAncDBVfkAnUAJW8pSgZns4BlPZm3J0rfJZsIVxV9PX1GUDdNB/vggHHSC7M3J05GHcySEsBDREmP8/I/kQwhvRHSJMV5a+s3W+oP4YubnlNL7bJgVgpk/UkpXInptwVRBSohciZkwGaLQbsK0QG7V2No5A2YLoSmk1FrTYSwQK6g4fq0HWwaDR0sEWRPyCGiBvBoqkNEwXghVa5UVRQhuHUKdqXYkJ4ASRrvcDYJKAFmQ7tZCtRkawgVidWYEhBukF2YUBARECzMSAgYiwdyEBu9tpqlVe1rXqn4vHr18QkFazpQwaAhoa2lG8xozAuIEaW20mvtkhCvQe0QDoXnb067+ZRwMpPWceJjxq3nYaWIsTuRr3I70JNgT2wvlArEkZrlGA2UG8STkubYGZQJBJII4wzW1kAkgz+pyBCmcq4k6Uw2CErzX44izVSAIIWnyeDVEEK+ABKDZmjW72fF/xJ7pxNY1i3bzQw8zfxPR06iNtfN14Cel9FL7aiW11pJhNH3acz9oYgtnmhCqN8RDfAzVVG0vMeL43UuiUh4niFSh2f8/HZldcUnvF0QAHlFqJ7u8AAAAAElFTkSuQmCC" width="40" height="40"> </a>
-				<a href="#tab2" class="tab-link">
-				   <img class="icon icons8-Like-Filled" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAADOklEQVRoQ+1Z327SYBQ/p5RkCyZuN5pyoz6B7E6BxHlnBmbsCaxPIDyB+gTDJxCfQBZh8W4sAfROfALdDY3eOJKRmVB6zFdXUrrSf3ztSkNvIND+vvM7v/Odc75ThIRcmBAesCYSNyXXiqwVCckDnkNLefboPoriPgFUiGgLEXPMJiIaIOI5AjRJVY+kz19/erGVN54rEaVc3AWA1wDAPr1cnZSm1e4c9wd2N//ey+emgnDoBw8A3kqtbsdpcUciw1LhEBGrXqy33kNE9Wy7VzP/zhvPjG1L5E8lt/VXvfXRh9dsubKw20yPn7I/LyeZEyMcgzjm6pnOhnhxsN0cnFsxbIko5eLJsiSMhRgZ9p0DCQOyI7W6unMcFRmW83UE4dUSXgv9UQLtXbbVnwv5OUWuNjZTI/ZXStN2zAnFSoRbSEXgibkQmxFheR1E8UcEBvBbQlUfGHVrRmRYKlQRkeX3lbmIqJZt9+p6MjGsVspFVnCerAyL/4aeSq2uXqjNinzjmCIj8QdL7dl2b8eqCEWyOudFpFZXF8McWskgMiwXBgj4kLPDwoa7vkcSs9mVUqEBiC/CdiFXfKIPUrsnW7NWQurIClb2DfFi22jprb3WyhRFIjrKtnsVI1TniezlZRCE91zjOCwwTXspHfcbtkT0k+EkMwDEe2GtzwWX6GwjPc6ZT4rXTojKKqhiUWMua5k9FfOaMiuCZpttz+z6yAaFDiDc5hIKvEAIRinSdu1GTQvHQXEMMQGnB3c/fWna+cV5rhWvQQQb0r1ZJK77pDEOrYupFQlMhD14o32YBxILs5Yd6xsh45GELyLs5igHFObBgpek57pHrCD6EI+gGVpqJhgBQsVt+m61yzcRBsDqjCpgg/eJkoC+ozqteH3H4loQvUiphxrH9Gw3z/Vqh+89YpsElg01ojNAlP2GEpfQsoKwrvlykmkg4r4fL7IzxWZ6LNu97/CDw0UR84K/nj+uaFqq4ZoICEaCMJUXtRt+SXAnwgDd1OGpArfN7uQ5velEoT5Th6VV0qrmU10Qzy/VogRd0EjT7HlRI3nRm96g+JEoYizCQo1957GhnQgHKog8PMgbIzFE/gF69WVCcPclZAAAAABJRU5ErkJggg==" width="40" height="40">
-				</a>
-				
-			</div>
-		</div>
-		-->
+		
         
       </div>
     </div>

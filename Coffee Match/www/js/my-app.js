@@ -9,27 +9,15 @@ var $$ = Dom7;
 // Add view
 var mainView = myApp.addView('.view-main', {
   // Because we want to use dynamic navbar, we need to enable it for this view:
-  dynamicNavbar: true
-});
+  dynamicNavbar: true,
+  animateNavBackIcon: true
+});  
 
-var logged = localStorage.getItem("teste");
-alert(logged);
-
-if(logged == null){
-	myApp.onPageInit('index', function() {
-		mainView.router.loadPage('login.html');
-	}).trigger();
-} else {
-	myApp.onPageInit('index', function() {
-		$$("#invisible-container").removeClass("none");
-		$$("#invisible-nav").removeClass("navbar-hidden");
-	}).trigger();
-}
-
-myApp.onPageInit('login', function() {
-		localStorage.setItem("teste", true);
-	});
-
+myApp.onPageInit('user', function (page) {
+	var mySwiper = myApp.swiper('.swiper-container', {
+    pagination:'.swiper-pagination'
+  });
+})
 
 /**
  * jTinder initialization

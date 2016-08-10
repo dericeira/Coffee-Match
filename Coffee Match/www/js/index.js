@@ -37,6 +37,21 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        
+		var logged = localStorage.getItem("teste");
+		
+		if(logged == null){
+			myApp.onPageInit('index', function() {
+				mainView.router.loadPage('login.html');
+			}).trigger();
+		} else {
+			myApp.onPageInit('index', function() {
+				$$("#invisible-container").removeClass("none");
+				$$("#invisible-nav").removeClass("navbar-hidden");
+			}).trigger();
+		}
+
+		myApp.onPageInit('login', function() {
+				localStorage.setItem("teste", true);
+			});
     }
 };

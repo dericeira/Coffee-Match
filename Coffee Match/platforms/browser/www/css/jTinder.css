@@ -27,10 +27,10 @@
     top: 0;
     z-index: 2;
     left: 0;
-    box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+    box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, .75);
     overflow: hidden;
     text-align: center;
-    padding: 10px 10px 10px 10px;
+    padding: 10px;
     background: white;
     font-size: 24px;
     color: #000;
@@ -48,21 +48,26 @@
 
 /* Image rotation */
 #tinderslide li.next {
+/*
     -webkit-transform: rotate(-1deg);
     -moz-transform: rotate(-1deg);
     -o-transform: rotate(-1deg);
     -ms-transform: rotate(-1deg);
     transform: rotate(-2deg);
-	border-radius: 5px;
-	
+*/
+	border-radius: 5px;	
+	width: 95%;
+	left: 2.5%;
 }
 
 #tinderslide li.current {
+/*
     -webkit-transform: rotate(2deg);
     -moz-transform: rotate(2deg);
     -o-transform: rotate(2deg);
     -ms-transform: rotate(2deg);
     transform: rotate(0deg);
+*/	
 	margin-top: 12px;
 	border-radius: 5px;
 	

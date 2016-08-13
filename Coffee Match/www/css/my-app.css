@@ -179,5 +179,57 @@ box-shadow: 2px solid white;
   height: 100%;
 }
 
+/* Button designs */
+
+.buts {
+	position: fixed;
+	bottom: 2%;
+	margin: 0 auto;
+  left: 0;
+  right: 0
+}
+
+.but-nope, .but-yay {
+  display: inline-block;
+}
+
+.buts button {
+
+  background: #4cd964;
+  border: none;
+  color: #fff;
+  border-radius: 50% 50%;
+  width: 70px;
+  height: 70px;
+  line-height: 30px;
+  margin: 0 .5em;
+  margin-top: 20px;
+  display: inline-block;
+  font-size: 30px;
+  -webkit-box-shadow: 0 3px 6px rgba(0,0,0,.25);
+  -moz-box-shadow: 0 3px 6px rgba(0,0,0,.25);
+}
+
+.buts .but-nope {
+  background: #ff3b30;
+}
+
+.buts .but-info {
+  background: #03a9f4;
+  width: 50px;
+  height: 50px;
+}
+
+.friends-list {
+ list-style: none;
+ padding-left: 0px !important;
+}
+
+.friends-list li {
+display: inline-block;
+
+}
+
+
 
 

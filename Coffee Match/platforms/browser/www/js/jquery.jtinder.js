@@ -10,8 +10,8 @@
 ;(function ($, window, document, undefined) {
 	var pluginName = "jTinder",
 		defaults = {
-			onDislike: function(){},
-			onLike: function(){},
+			onDislike: function(){ alert('hj')},
+			onLike: function(){ mainView.router.loadPage('match.html'); },
 			animationRevertSpeed: 200,
 			animationSpeed: 400,
 			threshold: 1,
@@ -146,7 +146,7 @@
 						} else {
 							panes.eq(current_pane).animate({"transform": "translate(-" + (pane_width) + "px," + (posY + pane_width) + "px) rotate(-60deg)"}, $that.settings.animationSpeed, function () {
 								if($that.settings.onDislike) {
-									$that.settings.onLike(panes.eq(current_pane));
+									$that.settings.onDislike(panes.eq(current_pane));
 								}
 								$that.next();
 							});

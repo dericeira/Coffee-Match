@@ -96,7 +96,7 @@ box-shadow: 2px solid white;
 }
 
 .occupation {
-	margin-top: -10px;
+	margin-top: -15px;
 }
 
 .college {
@@ -107,7 +107,13 @@ box-shadow: 2px solid white;
 }
 
 .friends {
-	margin-top: -8px;
+	margin-top: -8px;	
+}
+
+.friends img {
+	width: 50px;
+	height: 50px;
+	border-radius: 100%;
 }
 
 .profile-photo {

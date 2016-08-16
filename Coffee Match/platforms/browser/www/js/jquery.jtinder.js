@@ -10,7 +10,7 @@
 ;(function ($, window, document, undefined) {
 	var pluginName = "jTinder",
 		defaults = {
-			onDislike: function(){ alert('hj')},
+			onDislike: function(){ },
 			onLike: function(){ mainView.router.loadPage('match.html'); },
 			animationRevertSpeed: 200,
 			animationSpeed: 400,

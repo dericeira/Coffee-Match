@@ -37,7 +37,9 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-		
+		StatusBar.overlaysWebView(false);
+		StatusBar.styleLightContent();
+		StatusBar.backgroundColorByHexString("#8D7A4B");
 		var logged = localStorage.getItem("teste");
 		
 		if(logged == null){
@@ -45,15 +47,32 @@ var app = {
 				mainView.router.loadPage('login.html');
 			}).trigger();
 		} else {
+			
 			myApp.onPageInit('index', function() {
+				StatusBar.overlaysWebView(false);
 				$$("#invisible-container").removeClass("none");
 				$$("#invisible-nav").removeClass("navbar-hidden");
 			}).trigger();
 		}
-		
 
 		myApp.onPageInit('login', function() {
+			    StatusBar.overlaysWebView(true);
 				localStorage.setItem("teste", true);
+				
 			});
-    }
+		
+		
+		myApp.onPageInit('passo1', function() {
+			    StatusBar.overlaysWebView(false);		
+			});
+		
+		myApp.onPageInit('user', function() {
+			    StatusBar.overlaysWebView(true);		
+			});
+		
+		myApp.onPageBeforeRemove('user', function() {
+			    StatusBar.overlaysWebView(false);		
+			});
+		}
+		
 };

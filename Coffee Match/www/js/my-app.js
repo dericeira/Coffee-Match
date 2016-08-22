@@ -1,6 +1,6 @@
 // Initialize app
 var myApp = new Framework7({
-    
+    statusbarOverlay:false 
 });
  
 // If we need to use custom DOM library, let's save it to $$ variable:
@@ -17,7 +17,7 @@ myApp.onPageInit('user', function (page) {
 	var mySwiper = myApp.swiper('.swiper-container', {
     pagination:'.swiper-pagination'
   });
-})
+});
 
 /**
  * jTinder initialization

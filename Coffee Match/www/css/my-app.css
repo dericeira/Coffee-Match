@@ -45,9 +45,10 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 }
 
 .logo {
-text-align:center;
+//text-align:center;
 font-family: 'Reenie Beanie', cursive; /*Reenie Beanie is available through Google Webfonts http://code.google.com/webfonts/specimen/Reenie+Beanie*/
-font-size: 1.5em;
+font-size: 20px !important;
+font-style: bol !important;
 color: white;
 letter-spacing:0.09em;
 }
@@ -65,6 +66,13 @@ box-shadow: 2px solid white;
 	padding: 0px !important;
 	margin: 0px !important;
 	height: 100%;
+}
+
+.statusbar-overlay {
+    background: #8D7A4B;
+    /* We can add transition for smooth color animation */
+    -webkit-transition: 400ms;
+    transition: 400ms;
 }
 
 .header-panel {
@@ -188,11 +196,12 @@ box-shadow: 2px solid white;
 /* Button designs */
 
 .buts {
-	position: fixed;
+	position: absolute;
 	bottom: 2%;
 	margin: 0 auto;
-  left: 0;
-  right: 0
+	left: 0;
+	right: 0;
+	z-index: 4;
 }
 
 .but-nope, .but-yay {
@@ -211,7 +220,7 @@ box-shadow: 2px solid white;
   margin: 0 .5em;
   margin-top: 20px;
   display: inline-block;
-  font-size: 30px;
+  font-size: 20px;
   -webkit-box-shadow: 0 3px 6px rgba(0,0,0,.25);
   -moz-box-shadow: 0 3px 6px rgba(0,0,0,.25);
 }

@@ -55,13 +55,13 @@
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.henrique.coffeematch"
         },
-        "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "com.henrique.coffeematch"
-        },
         "cordova-plugin-vibration": {
             "PACKAGE_NAME": "com.henrique.coffeematch"
         },
         "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.henrique.coffeematch"
+        },
+        "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "com.henrique.coffeematch"
         }
     },

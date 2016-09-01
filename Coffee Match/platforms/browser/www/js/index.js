@@ -40,6 +40,7 @@ var app = {
 		StatusBar.overlaysWebView(false);
 		StatusBar.styleLightContent();
 		StatusBar.backgroundColorByHexString("#8D7A4B");
+		
 		var logged = localStorage.getItem("teste");
 		
 		if(logged == null){
@@ -54,11 +55,35 @@ var app = {
 				$$("#invisible-nav").removeClass("navbar-hidden");
 			}).trigger();
 		}
+		
+		myApp.onPageInit('login2', function() {
+			    StatusBar.overlaysWebView(true);
+				localStorage.setItem("teste", true);
+		});
 
 		myApp.onPageInit('login', function() {
 			    StatusBar.overlaysWebView(true);
 				localStorage.setItem("teste", true);
 				
+				//facebookConnectPlugin.browserInit("1647443792236383");	
+				var fbLoginSuccess = function (userData) {
+				 facebookConnectPlugin.api("/me", ["public_profile"],
+					  function onSuccess (result) {
+						alert(JSON.stringify(result));
+						
+					  }, function onError (error) {
+						alert(error);
+					  }
+					);
+				};		
+				
+				$$('#loginFB').on('click', function(){
+					facebookConnectPlugin.login(["public_profile"], fbLoginSuccess,
+					  function loginError (error) {
+						alert(error);
+					  }
+					);
+				});
 			});
 		
 		

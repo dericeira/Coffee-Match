@@ -37,12 +37,10 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-		StatusBar.overlaysWebView(false);
-		StatusBar.styleLightContent();
-		StatusBar.backgroundColorByHexString("#8D7A4B");
-		
+				
 		var logged = localStorage.getItem("teste");
 		
+		//Verifica se usuário está logado
 		if(logged == null){
 			myApp.onPageInit('index', function() {
 				mainView.router.loadPage('login.html');
@@ -56,20 +54,107 @@ var app = {
 			}).trigger();
 		}
 		
-		myApp.onPageInit('login2', function() {
-			    StatusBar.overlaysWebView(true);
-				localStorage.setItem("teste", true);
+		//Configura barra de navegação
+		StatusBar.overlaysWebView(false);
+		StatusBar.styleLightContent();
+		StatusBar.backgroundColorByHexString("#8D7A4B");
+		
+		//Pega localização do usuário
+		var latitude;
+		var longitude;
+		
+		navigator.geolocation.getCurrentPosition(function(position){
+			latitude  = position.coords.latitude;
+			longitude = position.coords.longitude;
+		}, function(){
+			alert('Não foi possível encontrar a sua localização');
+		});
+		
+		myApp.onPageInit('starbucks-map', function(){
+			var latLng = new google.maps.LatLng(latitude, longitude);
+			var mapOptions = {
+				center: latLng,
+				zoom: 13,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+			var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+			
+			$.ajax({
+								url: 'http://thecoffeematch.com/webservice/get-starbucks-map.php',
+								type: 'get',
+								dataType: 'json',
+								success: function (data) {
+									//Renderiza markers no mapa
+									for(i in data) {
+										var pin = data[i];		
+										var lat = pin.lat;
+										var lng = pin.lng;
+										
+										var coordenadas = new google.maps.LatLng(lat, lng);
+										
+										var marker = new google.maps.Marker({
+											position: coordenadas,
+											map: map,
+											title: pin.name
+										});
+									}
+								}
+							});
+			
+			var marker = new google.maps.Marker({
+				position: latLng,
+				map: map,
+				title: 'Titulo'
+			});
 		});
 
+		
 		myApp.onPageInit('login', function() {
 			    StatusBar.overlaysWebView(true);
-				localStorage.setItem("teste", true);
-				
-				//facebookConnectPlugin.browserInit("1647443792236383");	
+					
+				facebookConnectPlugin.browserInit("1647443792236383");	
 				var fbLoginSuccess = function (userData) {
-				 facebookConnectPlugin.api("/me", ["public_profile"],
+				 facebookConnectPlugin.api("/me?fields=id, name, email, birthday", ["id, name, email, birthday"],
 					  function onSuccess (result) {
-						alert(JSON.stringify(result));
+						  
+						    var person = {
+								id: result.id,
+								name: result.name,
+								email: result.email,
+								birthday: result.birthday,
+								picture: 'https://graph.facebook.com/' + result.id + '/picture?type=normal'
+							}
+							
+						  //Chamada ajax para registrar/autenticar usuário
+						  $.ajax({
+								url: 'http://thecoffeematch.com/webservice/register.php',
+								type: 'post',
+								dataType: 'json',
+								success: function (data) {
+									if(data.code == 1){
+										//Armazena localmente os dados e redireciona para HOME
+										localStorage.setItem("name", result.name);
+										localStorage.setItem("fbid", result.id);
+										localStorage.setItem("email", result.email);
+										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=normal');
+										
+										mainView.router.loadPage('index.html');
+									} 
+									if(data.code == 2){
+										//Armazena localmente os dados e redireciona para PASSO 1
+										localStorage.setItem("name", result.name);
+										localStorage.setItem("fbid", result.id);
+										localStorage.setItem("email", result.email);
+										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=normal');
+										
+										mainView.router.loadPage('passo1.html');
+									}
+									
+									
+								},
+								data: person
+							});
+						  
 						
 					  }, function onError (error) {
 						alert(error);
@@ -78,13 +163,16 @@ var app = {
 				};		
 				
 				$$('#loginFB').on('click', function(){
+					
 					facebookConnectPlugin.login(["public_profile"], fbLoginSuccess,
 					  function loginError (error) {
 						alert(error);
 					  }
 					);
 				});
+				
 			});
+			
 		
 		
 		myApp.onPageInit('passo1', function() {

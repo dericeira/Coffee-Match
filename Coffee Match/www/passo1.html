@@ -16,13 +16,14 @@
 			</div>
 			  
 				<div class="content-block">
-					<p style="margin-bottom: 20px">Combinar com <br><b>Mulheres</b></p>	
+					<p style="margin-bottom: 20px">Combinar com <br><b>
+					  Todos
+					</b></p>	
 					<hr>		
-					<p style="margin-top: 20px"><b>18</b> a <b>60+</b> anos</p>
+					<p style="margin-top: 20px">Área de busca <span style="float: right; font-style: bold" id="valBox"><b>2km</b></span></p>
 					<div class="item-input">
-					
 						<div class="range-slider">
-						  <input type="range" min="0" max="100" step="0.1">
+						  <input type="range" oninput="showVal(this.value)" onchange="showVal(this.value)" min="2" max="100" step="1">
 						</div>
 						<br>
 						<div class="text-center">
@@ -31,7 +32,7 @@
 					</div>
 			   </div>
 			  
-				<a href="passo2.html" class="button button-big button-fill" style="border-radius: 0px; position: absolute; bottom: 0; width: 100%; background: #E3C383; color: black">PRÓXIMO</a>
+				<a href="passo2.html" class="button button-big button-fill" id="next-step" style="border-radius: 0px; position: absolute; bottom: 0; width: 100%; background: #E3C383; color: black">PRÓXIMO</a>
 			
 		</div>
   </div>

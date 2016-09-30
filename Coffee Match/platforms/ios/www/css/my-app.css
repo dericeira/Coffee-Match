@@ -185,7 +185,7 @@ box-shadow: 2px solid white;
   height: 100%;
 }
 .swiper-slide {
-  height: 85vh;
+  height: 70vh;
   background:#fff;
 }
 .swiper-slide img{
@@ -206,6 +206,7 @@ box-shadow: 2px solid white;
 
 .but-nope, .but-yay {
   display: inline-block;
+  
 }
 
 .buts button {
@@ -227,12 +228,19 @@ box-shadow: 2px solid white;
 
 .buts .but-nope {
   background: #ff3b30;
+  width: 50px;
+  height: 50px;
+}
+
+.buts .but-yay {
+  width: 50px;
+  height: 50px;
 }
 
 .buts .but-info {
   background: #03a9f4;
-  width: 50px;
-  height: 50px;
+  //width: 50px;
+  //height: 50px;
 }
 
 .friends-list {

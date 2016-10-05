@@ -91,13 +91,6 @@ function setProfile(description, fbid){
 							});
 }
 
-/**
- * jTinder initialization
- */
-$("#tinderslide").jTinder({
-	
-});
-
 
 
 	

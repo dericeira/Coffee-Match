@@ -54,6 +54,10 @@ var app = {
 			}).trigger();
 		}
 		
+		StatusBar.overlaysWebView(false);
+		$$("#invisible-container").removeClass("none");
+		$$("#invisible-nav").removeClass("navbar-hidden");
+		
 		//Configura barra de navegação
 		StatusBar.overlaysWebView(false);
 		StatusBar.styleLightContent();
@@ -70,6 +74,56 @@ var app = {
 			alert('Não foi possível encontrar a sua localização');
 		});
 		
+		/* INÍCIO DA BUSCA PROS OUTROS USER */
+		
+		//Armazena as preferencias em variaveis
+		
+		
+		//Faz request das informações dos users compatíveis
+		var dados = {
+				user_id: localStorage.getItem('user_id'),
+				distance: localStorage.getItem('distance')
+			}
+			
+			$.ajax({
+								url: 'http://thecoffeematch.com/webservice/get-user-list.php',
+								type: 'post',
+								dataType: 'json',
+								data: dados,
+								crossDomain: true,
+								success: function (data) {
+									var classe;
+									for(i = 0; i < data.length; i++){
+										if(i == data.length - 2){
+											classe = "next";
+										} 
+										if (i == data.length - 1){
+											classe = "current";
+										} 
+										
+								    //Monta o DOM
+									var line1 = "<li class="+classe+" id="+data[i].id+">"
+												+ "<a href='user.html' class='no-animation'>"
+												+ "<img class='img' src="+data[i].picture+" />"
+												+ "</a>"
+												+ "<p class='username'><b>"+data[i].name+"</b>, "+data.age+"</p>"
+												+ "<p class='college'>"+data[i].college+"</p>"
+												+ "<p class='friends'><img src='img/nicolas.jpg' /><img src='img/fulana.png' /></p>"
+												+ "<div class='like'></div><div class='dislike'></div>"
+												+ "</li>";		
+									$("#user-list").append(line1);
+									}
+																
+									/**
+									 * jTinder initialization
+									 */
+									$("#tinderslide").jTinder({
+										
+									});
+								}								
+							});
+		
+		
 		myApp.onPageInit('starbucks-map', function(){
 			var latLng = new google.maps.LatLng(latitude, longitude);
 			var mapOptions = {
@@ -78,6 +132,13 @@ var app = {
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
 			var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+			
+			//Marker da localização do user
+			var marker = new google.maps.Marker({
+				position: latLng,
+				map: map,
+				title: 'Titulo'
+			});
 			
 			$.ajax({
 								url: 'http://thecoffeematch.com/webservice/get-starbucks-map.php',
@@ -101,11 +162,7 @@ var app = {
 								}
 							});
 			
-			var marker = new google.maps.Marker({
-				position: latLng,
-				map: map,
-				title: 'Titulo'
-			});
+			
 		});
 
 		
@@ -135,6 +192,7 @@ var app = {
 										//Armazena localmente os dados e redireciona para HOME
 										localStorage.setItem("name", result.name);
 										localStorage.setItem("fbid", result.id);
+										localStorage.setItem("user_id", data.user_id);
 										localStorage.setItem("email", result.email);
 										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=normal');
 										
@@ -143,6 +201,7 @@ var app = {
 									if(data.code == 2){
 										//Armazena localmente os dados e redireciona para PASSO 1
 										localStorage.setItem("name", result.name);
+										localStorage.setItem("user_id", data.user_id);
 										localStorage.setItem("fbid", result.id);
 										localStorage.setItem("email", result.email);
 										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=normal');
@@ -187,5 +246,7 @@ var app = {
 			    StatusBar.overlaysWebView(false);		
 			});
 		}
+		
+		
 		
 };

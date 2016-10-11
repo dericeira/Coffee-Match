@@ -92,21 +92,24 @@ var app = {
 								data: dados,
 								crossDomain: true,
 								success: function (data) {
+									shown_user_id = data.length - 1;
+									localStorage.setItem("shown_user_id", shown_user_id);
+									
 									var classe;
 									for(i = 0; i < data.length; i++){
-										if(i == data.length - 2){
-											classe = "next";
-										} 
+										
 										if (i == data.length - 1){
 											classe = "current";
-										} 
+										} else {
+											classe = "next";
+										}
 										
 								    //Monta o DOM
 									var line1 = "<li class="+classe+" id="+data[i].id+">"
 												+ "<a href='user.html' class='no-animation'>"
 												+ "<img class='img' src="+data[i].picture+" />"
 												+ "</a>"
-												+ "<p class='username'><b>"+data[i].name+"</b>, "+data.age+"</p>"
+												+ "<p class='username'><b>"+data[i].name+"</b>, "+data[i].age+"</p>"
 												+ "<p class='college'>"+data[i].college+"</p>"
 												+ "<p class='friends'><img src='img/nicolas.jpg' /><img src='img/fulana.png' /></p>"
 												+ "<div class='like'></div><div class='dislike'></div>"
@@ -169,7 +172,7 @@ var app = {
 		myApp.onPageInit('login', function() {
 			    StatusBar.overlaysWebView(true);
 					
-				facebookConnectPlugin.browserInit("1647443792236383");	
+				//facebookConnectPlugin.browserInit("1647443792236383");	
 				var fbLoginSuccess = function (userData) {
 				 facebookConnectPlugin.api("/me?fields=id, name, email, birthday", ["id, name, email, birthday"],
 					  function onSuccess (result) {

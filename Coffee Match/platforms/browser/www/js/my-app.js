@@ -36,6 +36,13 @@ myApp.onPageBeforeRemove('profile', function (page) {
 	setProfile(description, fbid);
 });
 
+//SHOWN USER
+myApp.onPageInit('user', function (page) {
+	var shown_user_id = localStorage.getItem("shown_user_id");
+	
+	//Ajax request to get user
+});
+
 myApp.onPageInit('passo2', function (page) {
 	var picture = localStorage.getItem("picture");
 	document.getElementById('picture').src = picture;

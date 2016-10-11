@@ -10,8 +10,59 @@
 ;(function ($, window, document, undefined) {
 	var pluginName = "jTinder",
 		defaults = {
-			onDislike: function(){ },
-			onLike: function(){ mainView.router.loadPage('match.html'); },
+			onDislike: function(){ 
+				//Faz o PUT (DIS)LIKE
+				var user_id       = localStorage.getItem("user_id");
+				var shown_user_id = panes.eq(current_pane - 1).attr("id");
+				
+				var dados = {
+					user_id: user_id,
+					shown_user_id: shown_user_id,
+					liked: 0
+				}
+				
+				$.ajax({
+								url: 'http://thecoffeematch.com/webservice/put-like.php',
+								type: 'post',
+								data: dados,
+								success: function (data) {
+																	
+								}
+								
+							});
+				
+				//INVERTE NEXT COM CURRENT
+				panes.eq(current_pane - 1).toggleClass("next current");
+				
+			},
+			onLike: function(){ 
+				//Faz o PUT LIKE
+				var user_id    = localStorage.getItem("user_id");
+				var shown_user_id = panes.eq(current_pane - 1).attr("id");
+				
+				var dados = {
+					user_id: user_id,
+					shown_user_id: shown_user_id,
+					liked: 1
+				}
+				$.ajax({
+								url: 'http://thecoffeematch.com/webservice/put-like.php',
+								type: 'post',
+								data: dados,
+								success: function (data) {
+									/*
+									if(data == "match")	{					
+										mainView.router.loadPage('match.html');
+									}
+									*/
+								}
+								
+							});
+				
+				//INVERTE NEXT COM CURRENT
+				panes.eq(current_pane - 1).toggleClass("next current");
+				 
+			},
 			animationRevertSpeed: 200,
 			animationSpeed: 400,
 			threshold: 1,
@@ -61,7 +112,7 @@
 			return this.showPane(current_pane - 1);
 		},
 
-		dislike: function() {
+		dislike: function() {	
 			panes.eq(current_pane).find($that.settings.dislikeSelector).css('opacity', 1);
 			panes.eq(current_pane).animate({"transform": "translate(-" + (pane_width) + "px," + (pane_width*-1.5) + "px) rotate(-60deg)"}, $that.settings.animationSpeed, function () {	
 				if($that.settings.onDislike) {

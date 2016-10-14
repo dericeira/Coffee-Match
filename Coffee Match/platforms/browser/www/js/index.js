@@ -46,22 +46,22 @@ var app = {
 				mainView.router.loadPage('login.html');
 			}).trigger();
 		} else {
-			
 			myApp.onPageInit('index', function() {
-				StatusBar.overlaysWebView(false);
-				$$("#invisible-container").removeClass("none");
-				$$("#invisible-nav").removeClass("navbar-hidden");
-			}).trigger();
-		}
-		
-		StatusBar.overlaysWebView(false);
-		$$("#invisible-container").removeClass("none");
-		$$("#invisible-nav").removeClass("navbar-hidden");
-		
-		//Configura barra de navegação
+				//Configura barra de navegação
 		StatusBar.overlaysWebView(false);
 		StatusBar.styleLightContent();
 		StatusBar.backgroundColorByHexString("#8D7A4B");
+		
+		var pic = localStorage.getItem("picture");
+		
+		$$(".search-effect").attr("src", pic);
+		$$(".profile-photo").attr("src", pic);
+		
+		$$("#name").html(localStorage.getItem("name"));
+		$$("#age").html(localStorage.getItem("age"));
+		
+		$$("#invisible-container").removeClass("none");
+		$$("#invisible-nav").removeClass("navbar-hidden");
 		
 		//Pega localização do usuário
 		var latitude;
@@ -92,8 +92,9 @@ var app = {
 								data: dados,
 								crossDomain: true,
 								success: function (data) {
-									shown_user_id = data.length - 1;
-									localStorage.setItem("shown_user_id", shown_user_id);
+									
+									var position = data.length - 1;
+									localStorage.setItem("shown_user_id", data[position].id);
 									
 									var classe;
 									for(i = 0; i < data.length; i++){
@@ -167,21 +168,25 @@ var app = {
 			
 			
 		});
+			}).trigger();
+		}
+		
+		
 
 		
 		myApp.onPageInit('login', function() {
 			    StatusBar.overlaysWebView(true);
 					
-				//facebookConnectPlugin.browserInit("1647443792236383");	
+				facebookConnectPlugin.browserInit("1647443792236383");	
 				var fbLoginSuccess = function (userData) {
 				 facebookConnectPlugin.api("/me?fields=id, name, email, birthday", ["id, name, email, birthday"],
 					  function onSuccess (result) {
 						  
 						    var person = {
-								id: result.id,
+								fbid: result.id,
 								name: result.name,
 								email: result.email,
-								birthday: result.birthday,
+								age: result.birthday,
 								picture: 'https://graph.facebook.com/' + result.id + '/picture?type=normal'
 							}
 							
@@ -190,16 +195,20 @@ var app = {
 								url: 'http://thecoffeematch.com/webservice/register.php',
 								type: 'post',
 								dataType: 'json',
+								data: person,
 								success: function (data) {
+									//alert(data.code);
 									if(data.code == 1){
 										//Armazena localmente os dados e redireciona para HOME
 										localStorage.setItem("name", result.name);
+										localStorage.setItem("age", data.age);
 										localStorage.setItem("fbid", result.id);
 										localStorage.setItem("user_id", data.user_id);
 										localStorage.setItem("email", result.email);
 										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=normal');
 										
-										mainView.router.loadPage('index.html');
+										mainView.router.loadPage({url: 'index.html', ignoreCache: true});
+										
 									} 
 									if(data.code == 2){
 										//Armazena localmente os dados e redireciona para PASSO 1
@@ -214,7 +223,10 @@ var app = {
 									
 									
 								},
-								data: person
+								error: function (request, status, error) {
+									alert(request.responseText);
+								}
+								
 							});
 						  
 						

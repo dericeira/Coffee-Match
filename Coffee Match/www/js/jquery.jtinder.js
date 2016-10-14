@@ -14,7 +14,7 @@
 				//Faz o PUT (DIS)LIKE
 				var user_id       = localStorage.getItem("user_id");
 				var shown_user_id = panes.eq(current_pane - 1).attr("id");
-				
+				localStorage.setItem("shown_user_id", shown_user_id);
 				var dados = {
 					user_id: user_id,
 					shown_user_id: shown_user_id,
@@ -39,7 +39,7 @@
 				//Faz o PUT LIKE
 				var user_id    = localStorage.getItem("user_id");
 				var shown_user_id = panes.eq(current_pane - 1).attr("id");
-				
+				localStorage.setItem("shown_user_id", shown_user_id);
 				var dados = {
 					user_id: user_id,
 					shown_user_id: shown_user_id,

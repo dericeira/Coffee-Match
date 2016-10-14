@@ -24,23 +24,45 @@ myApp.onPageInit('passo1', function (page) {
 });
 
 myApp.onPageInit('profile', function (page) {
+	
+	$$("#profile-name").html(localStorage.getItem("name"));
+	$$("#profile-age").html(localStorage.getItem("age"));
+	$$("#picture").attr("src", localStorage.getItem("picture"));
 	$$("#description").val(localStorage.getItem("description"));
-	$$("#occupation").val(localStorage.getItem("occupation"));
-	$$("#graduation").val(localStorage.getItem("graduation"));
+	$$("#occupation").html(localStorage.getItem("occupation"));
+	$$("#graduation").html(localStorage.getItem("graduation"));
+	$$("#location").html(localStorage.getItem("location"));
+	
+	$$("#save").on("click", function(){
+		
+		var description = $$("#description").val();
+		var fbid = localStorage.getItem("fbid");
+		//Chamada ao servidor para atualização de informações de perfil
+		setProfile(description, fbid);
+	});
 });
 
-myApp.onPageBeforeRemove('profile', function (page) {
-	var description = document.getElementById("description").html;
-    var fbid = localStorage.getItem("fbid");
-	//Chamada ao servidor para atualização de informações de perfil
-	setProfile(description, fbid);
-});
 
 //SHOWN USER
 myApp.onPageInit('user', function (page) {
-	var shown_user_id = localStorage.getItem("shown_user_id");
+	var suid = localStorage.getItem("shown_user_id");
+	var d = {shown_user_id: suid};
 	
 	//Ajax request to get user
+	$.ajax({
+								url: 'http://thecoffeematch.com/webservice/get-user-list.php',
+								type: 'post',
+								dataType: 'json',
+								data: d,
+								success: function (data) {
+									
+									$$("#nome").html(data[0].name);
+									$$("#idade").html(data[0].age);
+									$$("#college").html(data[0].college);
+									$$("#picture").attr("src", data[0].picture);
+									
+								}
+							});
 });
 
 myApp.onPageInit('passo2', function (page) {
@@ -90,9 +112,13 @@ function setProfile(description, fbid){
 								dataType: 'json',
 								data: info,
 								success: function (data) {
-									if(data.status == 1){
+									
+									if(data.code == 1){
+										
 										//Atualiza preferências e executa função de callback
 										localStorage.setItem("description", description);
+										alert("Informações atualizadas!");
+										mainView.router.loadPage('index.html');
 									}
 								}
 							});

@@ -38,7 +38,7 @@ var app = {
     // Update DOM on a Received Event
     receivedEvent: function(id) {
 				
-		var logged = localStorage.getItem("teste");
+		var logged = localStorage.getItem("user_id");
 		
 		//Verifica se usuário está logado
 		if(logged == null){

@@ -21,6 +21,41 @@ myApp.onPageInit('passo1', function (page) {
 			mainView.router.loadPage('passo2.html');
 		})
 	})
+});	
+
+myApp.onPageInit('combinacoes', function (page) {
+	var user_id = localStorage.getItem("user_id");
+	var x = {user_id: user_id}
+	
+	//Ajax request to get user
+	$.ajax({
+								url: 'http://thecoffeematch.com/webservice/get-matches.php',
+								type: 'post',
+								dataType: 'json',
+								data: x,
+								success: function (data) {
+									
+									for(i = 0; i < data.length; i++){
+										//Monta o DOM
+									var line1 = "<li class='item-content'>"
+												+ "<div class='item-media'>"
+												+ "<img class='icon icons8-Settings-Filled' src="+data[i].picture+"  style='border-radius: 100%; margin-top: 5px; width: 60px; height: 60px'>"
+												+ "</div>"
+												+ "<div class='item-inner'>"
+												+ "<a href='chat.html' class='item-link match' id="+data[i].id+">"
+												+ "<div class='item-title'><span id='matches-name'>"+data[i].name+"</span><br>"
+												+ "<span class='subtitle'>"+data[i].date+"</span></div></div></a></li>";		
+									$("#match-li").append(line1);
+									
+									}
+									$(".match").on("click", function(){
+										localStorage.setItem("match");
+									});
+								}
+															
+							});
+							
+	
 });
 
 myApp.onPageInit('profile', function (page) {
@@ -79,6 +114,17 @@ myApp.onPageInit('settings', function (page) {
 		})
 	})
 });
+
+myApp.onPageInit('chat', function (page) {
+	$$("#toolbar").toggleClass("none visivel");
+	
+	
+});
+
+myApp.onPageBack('chat', function (page) {
+	$$("#toolbar").toggleClass("visivel none");
+});
+
 
 //Manipulação de evento de mudança do slider de distância
 function showVal(newVal){

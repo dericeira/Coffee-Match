@@ -49,7 +49,8 @@ myApp.onPageInit('combinacoes', function (page) {
 									
 									}
 									$(".match").on("click", function(){
-										localStorage.setItem("match");
+										localStorage.setItem("match", this.id);
+										
 									});
 								}
 															
@@ -117,6 +118,76 @@ myApp.onPageInit('settings', function (page) {
 
 myApp.onPageInit('chat', function (page) {
 	$$("#toolbar").toggleClass("none visivel");
+	var user_id = localStorage.getItem("user_id");
+	
+	var match = localStorage.getItem("match");
+	var g = {match: match};
+	
+	// Init Messages
+var myMessages = myApp.messages('.messages', {
+  autoLayout:true
+});
+	
+	// Init Messagebar
+	var myMessagebar = myApp.messagebar('.messagebar');
+	
+	// Handle message
+$$('.messagebar').on('click', function () {
+  // Message text
+  var messageText = myMessagebar.value().trim();
+  // Exit if empy message
+  if (messageText.length === 0) return;
+ 
+  // Empty messagebar
+  myMessagebar.clear()
+ 
+  // Random message type
+  var messageType = "sent";
+ 
+  // Avatar and name for received message
+  var name;
+  
+  // Add message
+  myMessages.addMessage({
+    // Message text
+    text: messageText,
+    // Random message type
+    type: messageType,
+	//Name
+    name: name
+  })
+ 
+}); 
+	
+	//Request ajax que recupera a conversa
+	$.ajax({
+								url: 'http://thecoffeematch.com/webservice/get-messages.php',
+								type: 'post',
+								dataType: 'json',
+								data: g,
+								success: function (data) {
+									
+									for(i = 0; i < data.length; i++){
+										if(data[i].id == user_id){
+											var line0 = "<div class='message message-sent'>"
+														+ "<div class='message-text'>"+data[i].message+"</div>"
+														+ "</div>";
+											$(".messages").append(line0);
+										} else {
+											//Monta o DOM
+											var line1 = "<div class='message message-received'>"
+															+ "<div class='message-name'>"+data[i].name+"</div>"
+															+ "<div class='message-text'>"+data[i].message+"</div>"
+															+ "</div>";
+											$(".messages").append(line1);
+										}
+									
+									}
+									
+									
+								}
+	});
+	
 	
 	
 });

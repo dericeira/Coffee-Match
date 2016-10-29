@@ -37,7 +37,7 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-				
+		
 		var logged = localStorage.getItem("user_id");
 		
 		//Verifica se usuário está logado
@@ -45,15 +45,17 @@ var app = {
 			myApp.onPageInit('index', function() {
 				mainView.router.loadPage('login.html');
 			}).trigger();
-		} else {
-			myApp.onPageInit('index', function() {
-				//Configura barra de navegação
+		} 
+		
+		myApp.onPageInit('index', function() {
+				
+		//Configura barra de navegação
 		StatusBar.overlaysWebView(false);
 		StatusBar.styleLightContent();
 		StatusBar.backgroundColorByHexString("#8D7A4B");
 		
 		var pic = localStorage.getItem("picture");
-		
+			
 		$$(".search-effect").attr("src", pic);
 		$$(".profile-photo").attr("src", pic);
 		
@@ -82,7 +84,8 @@ var app = {
 		//Faz request das informações dos users compatíveis
 		var dados = {
 				user_id: localStorage.getItem('user_id'),
-				distance: localStorage.getItem('distance')
+				distance: localStorage.getItem('distance'),
+				access_token: localStorage.getItem('token')
 			}
 			
 			$.ajax({
@@ -91,7 +94,7 @@ var app = {
 								dataType: 'json',
 								data: dados,
 								crossDomain: true,
-								success: function (data) {
+								success: function (data) {							
 									
 									var position = data.length - 1;
 									localStorage.setItem("shown_user_id", data[position].id);
@@ -104,7 +107,8 @@ var app = {
 										} else {
 											classe = "next";
 										}
-										
+									
+																	
 								    //Monta o DOM
 									var line1 = "<li class="+classe+" id="+data[i].id+">"
 												+ "<a href='user.html' class='no-animation'>"
@@ -129,6 +133,7 @@ var app = {
 		
 		
 		myApp.onPageInit('starbucks-map', function(){
+			
 			var latLng = new google.maps.LatLng(latitude, longitude);
 			var mapOptions = {
 				center: latLng,
@@ -169,25 +174,29 @@ var app = {
 			
 		});
 			}).trigger();
-		}
+		
 		
 		
 
 		
 		myApp.onPageInit('login', function() {
 			    StatusBar.overlaysWebView(true);
-					
+				localStorage.clear();
+				
 				facebookConnectPlugin.browserInit("1647443792236383");	
 				var fbLoginSuccess = function (userData) {
-				 facebookConnectPlugin.api("/me?fields=id, name, email, birthday", ["id, name, email, birthday"],
+				 facebookConnectPlugin.api("/me?fields=id, first_name, email", ["id, first_name, email"],
 					  function onSuccess (result) {
-						  
+						    facebookConnectPlugin.getAccessToken(function(token) {
+								console.log(token)
+								localStorage.setItem("token", token);
+								
+							 });
 						    var person = {
 								fbid: result.id,
-								name: result.name,
+								name: result.first_name,
 								email: result.email,
-								age: result.birthday,
-								picture: 'https://graph.facebook.com/' + result.id + '/picture?type=normal'
+								picture: 'https://graph.facebook.com/' + result.id + '/picture?type=large'
 							}
 							
 						  //Chamada ajax para registrar/autenticar usuário
@@ -200,26 +209,27 @@ var app = {
 									//alert(data.code);
 									if(data.code == 1){
 										//Armazena localmente os dados e redireciona para HOME
-										localStorage.setItem("name", result.name);
-										localStorage.setItem("age", data.age);
+										localStorage.setItem("name", result.first_name);
 										localStorage.setItem("fbid", result.id);
 										localStorage.setItem("user_id", data.user_id);
 										localStorage.setItem("email", result.email);
-										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=normal');
+										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=large');
 										
-										mainView.router.loadPage({url: 'index.html', ignoreCache: true});
+										mainView.router.loadPage({url: 'passo1.html', ignoreCache: false});
 										
 									} 
 									if(data.code == 2){
 										//Armazena localmente os dados e redireciona para PASSO 1
-										localStorage.setItem("name", result.name);
+										localStorage.setItem("name", result.first_name);
 										localStorage.setItem("user_id", data.user_id);
 										localStorage.setItem("fbid", result.id);
 										localStorage.setItem("email", result.email);
-										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=normal');
+										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=large');
 										
 										mainView.router.loadPage('passo1.html');
 									}
+									
+								
 									
 									
 								},
@@ -235,32 +245,30 @@ var app = {
 					  }
 					);
 				};		
+				var uit = localStorage.getItem("user_id");
 				
-				$$('#loginFB').on('click', function(){
-					
-					facebookConnectPlugin.login(["public_profile"], fbLoginSuccess,
+				$$('#loginFB').on('click', function(){		
+					facebookConnectPlugin.login(["public_profile, email, user_friends"], fbLoginSuccess,
 					  function loginError (error) {
-						alert(error);
+						myApp.alert(error);
 					  }
 					);
 				});
 				
 			});
 			
-		
-		
-		myApp.onPageInit('passo1', function() {
-			    StatusBar.overlaysWebView(false);		
-			});
-		
+				
 		myApp.onPageInit('user', function() {
-			    StatusBar.overlaysWebView(true);		
+			    StatusBar.overlaysWebView(true);
+				
 			});
 		
 		myApp.onPageBeforeRemove('user', function() {
 			    StatusBar.overlaysWebView(false);		
 			});
 		}
+		
+	
 		
 		
 		

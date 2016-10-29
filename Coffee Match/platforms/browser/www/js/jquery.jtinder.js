@@ -13,7 +13,8 @@
 			onDislike: function(){ 
 				//Faz o PUT (DIS)LIKE
 				var user_id       = localStorage.getItem("user_id");
-				var shown_user_id = panes.eq(current_pane - 1).attr("id");
+				var shown_user_id = panes.eq(current_pane).attr("id");
+				
 				localStorage.setItem("shown_user_id", shown_user_id);
 				var dados = {
 					user_id: user_id,
@@ -38,7 +39,8 @@
 			onLike: function(){ 
 				//Faz o PUT LIKE
 				var user_id    = localStorage.getItem("user_id");
-				var shown_user_id = panes.eq(current_pane - 1).attr("id");
+				var shown_user_id = panes.eq(current_pane).attr("id");
+				
 				localStorage.setItem("shown_user_id", shown_user_id);
 				var dados = {
 					user_id: user_id,
@@ -50,11 +52,11 @@
 								type: 'post',
 								data: dados,
 								success: function (data) {
-									/*
-									if(data == "match")	{					
+									
+									if(data === "match")	{			
 										mainView.router.loadPage('match.html');
 									}
-									*/
+									
 								}
 								
 							});

@@ -114,14 +114,15 @@ myApp.onPageInit('user', function (page) {
 									$$("#nome").html(data[0].name);
 									$$("#idade").html(data[0].age);
 									$$("#college").html(data[0].college);
+									$$("#occupation").html(data[0].occupation);
 									$$("#picture").attr("src", data[0].picture);
 									
 									//Handler dos amigos em comum
 									var json = JSON.parse(data[0].mutual_friends);
 									var context = json.context;
-									alert(context.mutual_friends)
+									//alert(context.mutual_friends)
 									if(context.mutual_friends){
-										alert(context);
+										//alert(context);
 									} 
 								}
 							});
@@ -144,9 +145,7 @@ myApp.onPageInit('chat', function (page) {
 	
 	var match = localStorage.getItem("match");
 	var g = {match: match};
-	
-	
-	
+		
 	// Handle message
 $$('.messagebar').on('click', function () {
 	// Init Messages
@@ -256,13 +255,42 @@ $$('.messagebar').on('click', function () {
 		});
 	}
 	
+	$$('#action-sheet').on('click', function () {
+    var buttons1 = [
+        {
+            text: 'Opções',
+            label: true
+        },
+        {
+            text: 'Starbucks mais próxima',
+            bold: true
+        },
+        {
+            text: 'Agendamento',
+        }
+    ];
+    var buttons2 = [
+        {
+            text: 'Cancel',
+            color: 'red'
+        }
+    ];
+    var groups = [buttons1, buttons2];
+    myApp.actions(groups);
+});
 	
 	
 });
 
 myApp.onPageBack('chat', function (page) {
 	$$("#toolbar").toggleClass("visivel none");
-	clearInterval(myInterval);
+	try {
+		clearInterval(myInterval);
+	}
+	catch(err) {
+		
+	}
+	
 });
 
 myApp.onPageInit('match', function (page) {

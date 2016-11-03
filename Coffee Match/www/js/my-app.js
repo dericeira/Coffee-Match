@@ -126,6 +126,23 @@ myApp.onPageInit('user', function (page) {
 									} 
 								}
 							});
+	$$('.but-info').on('click', function () {
+		myApp.prompt('Sobre o que você quer conversar?', "Coffee Match", function (value) {
+			/*
+			myApp.confirm('Are you sure that your name is ' + value + '?', function () {
+				myApp.alert('Ok, your name is "' + value + '"!');
+			});
+			*/
+		});
+	});
+	$$('.but-nope').on('click', function () {
+		$("#tinderslide").jTinder('dislike');
+		mainView.router.back();
+	});
+	$$('.but-yay').on('click', function () {
+		$("#tinderslide").jTinder('like');
+		mainView.router.back();
+	});
 });
 
 
@@ -262,11 +279,18 @@ $$('.messagebar').on('click', function () {
             label: true
         },
         {
-            text: 'Starbucks mais próxima',
-            bold: true
+            text: 'Starbucks mais próximas',
+            bold: true,
+			onClick: function(){
+				$$("#toolbar").toggleClass("none visivel");
+				mainView.router.loadPage('starbucks-proximas.html');
+			}
         },
         {
-            text: 'Agendamento',
+            text: 'Agendar'
+        },
+		{
+            text: 'Avaliação'
         }
     ];
     var buttons2 = [
@@ -311,7 +335,7 @@ myApp.onPageInit('match', function (page) {
 									$$("#user-two-img").attr("src", data[0].picture);						
 								}
 							});
-});
+});			
 
 //Manipulação de evento de mudança do slider de distância
 function showVal(newVal){
@@ -356,7 +380,7 @@ function setProfile(description, occupation, age, college, fbid){
 										
 										//Atualiza preferências e executa função de callback
 										localStorage.setItem("description", description);
-										myApp.alert("Bem vindo ao Coffee Match!");
+										myApp.alert("Bem vindo ao Coffee Match!", "");
 										//mainView.router.loadPage('index.html');
 									}
 								}

@@ -47,6 +47,7 @@ var app = {
 			}).trigger();
 		} 
 		
+		
 		myApp.onPageInit('index', function() {
 				
 		//Configura barra de navegação
@@ -173,7 +174,48 @@ var app = {
 			
 			
 		});
-			}).trigger();
+		myApp.onPageInit('starbucks-proximas', function(){
+			
+			var latLng = new google.maps.LatLng(latitude, longitude);
+			var mapOptions = {
+				center: latLng,
+				zoom: 13,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+			var map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
+			
+			//Marker da localização do user
+			var marker = new google.maps.Marker({
+				position: latLng,
+				map: map,
+				title: 'Titulo'
+			});
+			
+			$.ajax({
+								url: 'http://thecoffeematch.com/webservice/get-starbucks-map.php',
+								type: 'get',
+								dataType: 'json',
+								success: function (data) {
+									//Renderiza markers no mapa
+									for(i in data) {
+										var pin = data[i];		
+										var lat = pin.lat;
+										var lng = pin.lng;
+										
+										var coordenadas = new google.maps.LatLng(lat, lng);
+										
+										var marker = new google.maps.Marker({
+											position: coordenadas,
+											map: map,
+											title: pin.name
+										});
+									}
+								}
+							});
+			
+			
+		});
+	}).trigger();
 		
 		
 		

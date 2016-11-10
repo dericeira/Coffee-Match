@@ -174,6 +174,7 @@ var app = {
 			
 			
 		});
+		
 		myApp.onPageInit('starbucks-proximas', function(){
 			
 			var latLng = new google.maps.LatLng(latitude, longitude);
@@ -193,7 +194,7 @@ var app = {
 			
 			$.ajax({
 								url: 'http://thecoffeematch.com/webservice/get-starbucks-map.php',
-								type: 'get',
+								type: 'post',
 								dataType: 'json',
 								success: function (data) {
 									//Renderiza markers no mapa

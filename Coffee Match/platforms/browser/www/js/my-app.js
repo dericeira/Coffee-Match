@@ -48,6 +48,76 @@ myApp.onPageInit('passo2', function (page) {
 	})
 });
 
+myApp.onPageInit('confirmacao-convite', function (page) {
+	/*
+	$('#confirmar-cafe').on("click", function(){
+		//Faz o PUT LIKE
+				var user_id  = localStorage.getItem("user_id");
+				//var other_id = panes.eq(current_pane).attr("id");
+				
+				localStorage.setItem("shown_user_id", shown_user_id);
+				var dados = {
+					user_id: user_id,
+					//shown_user_id: shown_user_id,
+					liked: 1
+				}
+				$.ajax({
+								url: 'http://thecoffeematch.com/webservice/put-like.php',
+								type: 'post',
+								data: dados,
+								success: function (data) {
+											
+										mainView.router.loadPage('match.html');
+									
+								}
+								
+							});
+	})
+	*/
+});
+
+myApp.onPageInit('convites', function (page) {
+	var user_id = localStorage.getItem("user_id");
+	var y = {user_id: user_id};
+	//Ajax request to get user
+	$.ajax({
+								url: 'http://thecoffeematch.com/webservice/get-invites.php',
+								type: 'post',
+								dataType: 'json',
+								data: y,
+								success: function (data) {
+									for(i = 0; i < data.length; i++){
+									//Monta o DOM
+									var line1 = "<li class='swipeout'>"
+												+ "<div class='swipeout-content'>"
+												+ "<div class='item-content'>"
+												+ "<div class='item-media cont'>"
+												+ "<img class='icon icons8-Settings-Filled' src="+data[i].picture+"  style='border-radius: 100%; margin-top: 5px; width: 60px; height: 60px'>"
+												+ "</div>"
+												+ "<div class='item-inner'>"
+												+ "<a href='confirmacao-convite.html' class='item-link match' id="+data[i].id+">"
+												+ "<div class='item-title'><span id='matches-name'>"+data[i].name+"</span><br>"
+												+ "<span class='subtitle'>Aguardando confirmação</span>"
+												+ "</div>"
+												+ "</div>"
+												+ "</div>"
+												+ "</a>"
+												+ "</div>"
+												+ "<div class='swipeout-actions-right'>"
+												+ "<a href='#' class='swipeout-delete'>Deletar</a>"
+												+ "</div>"
+												+ "</li>";
+														
+									$("#invites-li").append(line1);
+									
+									}
+									
+								}
+															
+							});
+							
+});
+
 myApp.onPageInit('combinacoes', function (page) {
 	var user_id = localStorage.getItem("user_id");
 	var x = {user_id: user_id}
@@ -61,6 +131,11 @@ myApp.onPageInit('combinacoes', function (page) {
 								success: function (data) {
 									
 									for(i = 0; i < data.length; i++){
+										var agendamento = data[i].date;
+										if(data[i].date === null){
+											var agendamento = "Este convite expira em 3 dias";
+										}
+			
 										//Monta o DOM
 									var line1 = "<li class='item-content'>"
 												+ "<div class='item-media'>"
@@ -69,7 +144,7 @@ myApp.onPageInit('combinacoes', function (page) {
 												+ "<div class='item-inner'>"
 												+ "<a href='chat.html' class='item-link match' id="+data[i].id+">"
 												+ "<div class='item-title'><span id='matches-name'>"+data[i].name+"</span><br>"
-												+ "<span class='subtitle'>"+data[i].date+"</span></div></div></a></li>";		
+												+ "<span class='subtitle'>"+agendamento+"</span></div></div></a></li>";		
 									$("#match-li").append(line1);
 									
 									}
@@ -83,6 +158,8 @@ myApp.onPageInit('combinacoes', function (page) {
 							
 	
 });
+
+
 
 myApp.onPageInit('profile', function (page) {
 	
@@ -287,10 +364,18 @@ $$('.messagebar').on('click', function () {
 			}
         },
         {
-            text: 'Agendar'
+            text: 'Agendar',
+			onClick: function(){
+				$$("#toolbar").toggleClass("none visivel");
+				mainView.router.loadPage('calendario.html');				
+			}
         },
 		{
-            text: 'Avaliação'
+            text: 'Avaliação',
+			onClick: function(){
+				$$("#toolbar").toggleClass("none visivel");
+				mainView.router.loadPage('avaliacao.html');
+			}
         }
     ];
     var buttons2 = [
@@ -304,6 +389,14 @@ $$('.messagebar').on('click', function () {
 });
 	
 	
+});
+
+myApp.onPageBack('starbucks-proximas', function (page) {
+	$$("#toolbar").toggleClass("none visivel");
+});
+
+myApp.onPageBack('avaliacao', function (page) {
+	$$("#toolbar").toggleClass("none visivel");
 });
 
 myApp.onPageBack('chat', function (page) {
@@ -335,9 +428,79 @@ myApp.onPageInit('match', function (page) {
 									$$("#user-two-img").attr("src", data[0].picture);						
 								}
 							});
-});			
+});		
 
-//Manipulação de evento de mudança do slider de distância
+myApp.onPageBack('calendario', function(page){
+	$$("#toolbar").toggleClass("none visivel");
+});
+
+myApp.onPageInit('calendario', function(page){
+	var monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto' , 'Setembro' , 'Outubro', 'Novembro', 'Decembro'];
+ 
+var calendarInline = myApp.calendar({
+    container: '#calendar-inline-container',
+    value: [new Date()],
+    weekHeader: false,
+	input: '#picker-data',
+    toolbarTemplate: 
+        '<div class="toolbar calendar-custom-toolbar">' +
+            '<div class="toolbar-inner">' +
+                '<div class="left">' +
+                    '<a href="#" class="link icon-only"><i class="icon icon-back"></i></a>' +
+                '</div>' +
+                '<div class="center"></div>' +
+                '<div class="right">' +
+                    '<a href="#" class="link icon-only"><i class="icon icon-forward"></i></a>' +
+                '</div>' +
+            '</div>' +
+        '</div>',
+    onOpen: function (p) {
+        $$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
+        $$('.calendar-custom-toolbar .left .link').on('click', function () {
+            calendarInline.prevMonth();
+        });
+        $$('.calendar-custom-toolbar .right .link').on('click', function () {
+            calendarInline.nextMonth();
+        });
+    },
+    onMonthYearChangeStart: function (p) {
+        $$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
+    }
+}); 
+
+var pickerDescribe = myApp.picker({
+    input: '#picker-horario',
+    rotateEffect: true,
+    cols: [
+        {
+            textAlign: 'left',
+            values: ('00: 01: 02: 03: 04: 05: 06: 07: 08: 09: 10: 11: 12: 13: 14:').split(' ')
+        },
+        {
+            values: ('00 15 20 30').split(' ')
+        },
+    ]
+}); 
+
+$$("#confirmar-data").on("click", function(){
+	var data    = $$("#picker-data").val();
+	var horario = $$("#picker-horario").val();
+	var value   = data + " " + horario;
+	var match = localStorage.getItem("match");
+	var d2 = {match: match, data: value};
+	$.ajax({
+								url: 'http://thecoffeematch.com/webservice/update-date.php',
+								type: 'post',
+								data: d2,
+								success: function (data) {
+									myApp.alert("Horário agendado!")					
+								}
+					});
+})
+
+})
+
+//Mudança do slider de distância
 function showVal(newVal){
   document.getElementById("valBox").innerHTML=newVal;
 }
@@ -388,5 +551,3 @@ function setProfile(description, occupation, age, college, fbid){
 }
 
 
-
-	

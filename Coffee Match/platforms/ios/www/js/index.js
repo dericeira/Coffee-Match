@@ -20,6 +20,7 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
+        console.log("Initialized");
     },
     // Bind Event Listeners
     //
@@ -27,6 +28,7 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        console.log("Bind events");
     },
     // deviceready Event Handler
     //
@@ -34,10 +36,12 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        console.log("Send device ready");
+        facebookConnectPlugin.browserInit(appID, appVersion);
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-		
+		console.log("Received evend: " + id);
 		var logged = localStorage.getItem("user_id");
 		
 		//Verifica se usuário está logado
@@ -49,14 +53,14 @@ var app = {
 		
 		
 		myApp.onPageInit('index', function() {
-				
+		console.log("Load :index");
 		//Configura barra de navegação
 		StatusBar.overlaysWebView(false);
 		StatusBar.styleLightContent();
 		StatusBar.backgroundColorByHexString("#8D7A4B");
 		
 		var pic = localStorage.getItem("picture");
-			
+		console.log(pic);
 		$$(".search-effect").attr("src", pic);
 		$$(".profile-photo").attr("src", pic);
 		
@@ -71,6 +75,7 @@ var app = {
 		var longitude;
 		
 		navigator.geolocation.getCurrentPosition(function(position){
+			console.log(position);
 			latitude  = position.coords.latitude;
 			longitude = position.coords.longitude;
 		}, function(){
@@ -96,7 +101,8 @@ var app = {
 								data: dados,
 								crossDomain: true,
 								success: function (data) {							
-									
+									console.log("Busca outros user:");
+									console.log(data);
 									var position = data.length - 1;
 									localStorage.setItem("shown_user_id", data[position].id);
 									
@@ -225,10 +231,14 @@ var app = {
 			    StatusBar.overlaysWebView(true);
 				localStorage.clear();
 				
-				facebookConnectPlugin.browserInit("1647443792236383");	
+				//facebookConnectPlugin.browserInit("1647443792236383");	
 				var fbLoginSuccess = function (userData) {
-				 facebookConnectPlugin.api("/me?fields=id, first_name, email", ["id, first_name, email"],
+				 console.log("User data:");
+				 console.log(userData);
+				 facebookConnectPlugin.api("/me?fields=email,first_name", ["email"],
 					  function onSuccess (result) {
+					  		//console.log(JSON.stringify(result));
+					  		console.log(result);
 						    facebookConnectPlugin.getAccessToken(function(token) {
 								console.log(token)
 								localStorage.setItem("token", token);
@@ -276,6 +286,7 @@ var app = {
 									
 								},
 								error: function (request, status, error) {
+									console.log(error);
 									alert(request.responseText);
 								}
 								
@@ -290,7 +301,7 @@ var app = {
 				var uit = localStorage.getItem("user_id");
 				
 				$$('#loginFB').on('click', function(){		
-					facebookConnectPlugin.login(["public_profile, email, user_friends"], fbLoginSuccess,
+					facebookConnectPlugin.login(["public_profile", "email", "user_friends"], fbLoginSuccess,
 					  function loginError (error) {
 						myApp.alert(error);
 					  }

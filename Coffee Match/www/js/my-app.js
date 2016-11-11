@@ -205,11 +205,8 @@ myApp.onPageInit('user', function (page) {
 							});
 	$$('.but-info').on('click', function () {
 		myApp.prompt('Sobre o que você quer conversar?', "Coffee Match", function (value) {
-			/*
-			myApp.confirm('Are you sure that your name is ' + value + '?', function () {
-				myApp.alert('Ok, your name is "' + value + '"!');
-			});
-			*/
+			$("#tinderslide").jTinder('like');
+			mainView.router.back();
 		});
 	});
 	$$('.but-nope').on('click', function () {

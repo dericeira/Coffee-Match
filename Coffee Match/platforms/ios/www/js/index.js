@@ -166,6 +166,7 @@ var app = {
 										var marker = new google.maps.Marker({
 											position: coordenadas,
 											map: map,
+											icon: 'https://d18oqubxk77ery.cloudfront.net/df/6d/23/38/imagen-starbucks-0mini_comments.jpg',
 											title: pin.name
 										});
 									}
@@ -208,6 +209,7 @@ var app = {
 										var marker = new google.maps.Marker({
 											position: coordenadas,
 											map: map,
+											icon: 'https://d18oqubxk77ery.cloudfront.net/df/6d/23/38/imagen-starbucks-0mini_comments.jpg',
 											title: pin.name
 										});
 									}

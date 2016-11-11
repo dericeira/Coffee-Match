@@ -166,6 +166,7 @@ var app = {
 										var marker = new google.maps.Marker({
 											position: coordenadas,
 											map: map,
+											icon: 'https://d18oqubxk77ery.cloudfront.net/df/6d/23/38/imagen-starbucks-0mini_comments.jpg',
 											title: pin.name
 										});
 									}
@@ -208,6 +209,7 @@ var app = {
 										var marker = new google.maps.Marker({
 											position: coordenadas,
 											map: map,
+											icon: 'https://d18oqubxk77ery.cloudfront.net/df/6d/23/38/imagen-starbucks-0mini_comments.jpg',
 											title: pin.name
 										});
 									}
@@ -226,7 +228,7 @@ var app = {
 			    StatusBar.overlaysWebView(true);
 				localStorage.clear();
 				
-				facebookConnectPlugin.browserInit("1647443792236383");	
+				//facebookConnectPlugin.browserInit("1647443792236383");	
 				var fbLoginSuccess = function (userData) {
 				 facebookConnectPlugin.api("/me?fields=id, first_name, email", ["id, first_name, email"],
 					  function onSuccess (result) {

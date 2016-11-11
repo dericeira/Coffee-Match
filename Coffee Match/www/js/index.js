@@ -34,6 +34,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        facebookConnectPlugin.browserInit("1647443792236383");
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -226,9 +227,8 @@ var app = {
 			    StatusBar.overlaysWebView(true);
 				localStorage.clear();
 				
-				facebookConnectPlugin.browserInit("1647443792236383");	
 				var fbLoginSuccess = function (userData) {
-				 facebookConnectPlugin.api("/me?fields=id, first_name, email", ["id, first_name, email"],
+				 facebookConnectPlugin.api("/me?fields=first_name,email", ["first_name","email"],
 					  function onSuccess (result) {
 						    facebookConnectPlugin.getAccessToken(function(token) {
 								console.log(token)
@@ -291,8 +291,9 @@ var app = {
 				var uit = localStorage.getItem("user_id");
 				
 				$$('#loginFB').on('click', function(){		
-					facebookConnectPlugin.login(["public_profile, email, user_friends"], fbLoginSuccess,
+					facebookConnectPlugin.login(["public_profile", "email", "user_friends"], fbLoginSuccess,
 					  function loginError (error) {
+					  	alert("Errinho");
 						myApp.alert(error);
 					  }
 					);

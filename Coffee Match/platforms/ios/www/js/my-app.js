@@ -49,16 +49,34 @@ myApp.onPageInit('passo2', function (page) {
 });
 
 myApp.onPageInit('confirmacao-convite', function (page) {
-	/*
+	var idc = localStorage.getItem("idc");
+	var dadosConfirm = {shown_user_id: idc};
+	
+	//Ajax request to get user
+	$.ajax({
+								url: 'http://thecoffeematch.com/webservice/get-user-list.php',
+								type: 'post',
+								dataType: 'json',
+								data: dadosConfirm,
+								success: function (data) {
+									
+									$$("#name-confirm").html(data[0].name);
+									$$("#age-confirm").html(data[0].age);
+									$$("#occupation-confirm").html(data[0].occupation);
+									$$("#pic-confirm").attr("src", data[0].picture);
+									
+								}
+							});
+	
+	
 	$('#confirmar-cafe').on("click", function(){
 		//Faz o PUT LIKE
 				var user_id  = localStorage.getItem("user_id");
-				//var other_id = panes.eq(current_pane).attr("id");
+				var other_id = localStorage.getItem("idc");
 				
-				localStorage.setItem("shown_user_id", shown_user_id);
 				var dados = {
 					user_id: user_id,
-					//shown_user_id: shown_user_id,
+					shown_user_id: other_id,
 					liked: 1
 				}
 				$.ajax({
@@ -67,13 +85,13 @@ myApp.onPageInit('confirmacao-convite', function (page) {
 								data: dados,
 								success: function (data) {
 											
-										mainView.router.loadPage('match.html');
+									mainView.router.loadPage("index.html");
 									
 								}
 								
 							});
 	})
-	*/
+	
 });
 
 myApp.onPageInit('convites', function (page) {
@@ -87,6 +105,10 @@ myApp.onPageInit('convites', function (page) {
 								data: y,
 								success: function (data) {
 									for(i = 0; i < data.length; i++){
+									
+									//Seta id da confirmacao-convite
+									var idc = localStorage.setItem("idc", data[i].id);
+									
 									//Monta o DOM
 									var line1 = "<li class='swipeout'>"
 												+ "<div class='swipeout-content'>"

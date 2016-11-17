@@ -181,7 +181,7 @@ var app = {
 			var latLng = new google.maps.LatLng(latitude, longitude);
 			var mapOptions = {
 				center: latLng,
-				zoom: 13,
+				zoom: 12,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
 			var map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
@@ -200,6 +200,16 @@ var app = {
 								success: function (data) {
 									//Renderiza markers no mapa
 									for(i in data) {
+										var line1 = "<li class='item-content'>"
+												+ "<div class='item-media'>"
+												+ "<img class='icon icons8-Settings-Filled' src='img/starbucks-logo.gif'  style='border-radius: 100%; margin-top: 5px; width: 60px; height: 60px'>"
+												+ "</div>"
+												+ "<div class='item-inner'>"
+												+ "<a href='#' class='item-link'>"
+												+ "<div class='item-title'><span id='proximas-name'>"+data[i].name+"</span><br>"
+												+ "<span class='subtitle'><span id='proximas-street'>"+data[i].street+"</span>, <span id='proximas-num'>"+data[i].num+"</span> - <span id='proximas-distance'></span></span></div></div></a></li>";		
+										$("#proximas-ul").append(line1);
+									
 										var pin = data[i];		
 										var lat = pin.lat;
 										var lng = pin.lng;
@@ -229,6 +239,7 @@ var app = {
 				localStorage.clear();
 				
 				facebookConnectPlugin.browserInit("1647443792236383");	
+				
 				var fbLoginSuccess = function (userData) {
 				 facebookConnectPlugin.api("/me?fields=id, first_name, email", ["id, first_name, email"],
 					  function onSuccess (result) {
@@ -253,6 +264,7 @@ var app = {
 								success: function (data) {
 									//alert(data.code);
 									if(data.code == 1){
+										
 										//Armazena localmente os dados e redireciona para HOME
 										localStorage.setItem("name", result.first_name);
 										localStorage.setItem("fbid", result.id);
@@ -260,10 +272,11 @@ var app = {
 										localStorage.setItem("email", result.email);
 										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=large');
 										
-										mainView.router.loadPage({url: 'passo1.html', ignoreCache: false});
+										mainView.router.loadPage({url: 'index.html', ignoreCache: false});
 										
 									} 
 									if(data.code == 2){
+										
 										//Armazena localmente os dados e redireciona para PASSO 1
 										localStorage.setItem("name", result.first_name);
 										localStorage.setItem("user_id", data.user_id);
@@ -290,7 +303,6 @@ var app = {
 					  }
 					);
 				};		
-				var uit = localStorage.getItem("user_id");
 				
 				$$('#loginFB').on('click', function(){		
 					facebookConnectPlugin.login(["public_profile, email, user_friends"], fbLoginSuccess,
@@ -299,6 +311,7 @@ var app = {
 					  }
 					);
 				});
+				
 				
 			});
 			

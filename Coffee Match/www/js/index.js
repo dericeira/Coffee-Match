@@ -34,6 +34,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        //facebookConnectPlugin.browserInit("1647443792236383");
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -42,6 +43,7 @@ var app = {
 		
 		//Verifica se usuário está logado
 		if(logged == null){
+			
 			myApp.onPageInit('index', function() {
 				mainView.router.loadPage('login.html');
 			}).trigger();
@@ -73,6 +75,21 @@ var app = {
 		navigator.geolocation.getCurrentPosition(function(position){
 			latitude  = position.coords.latitude;
 			longitude = position.coords.longitude;
+			
+			var locs = {
+					lat: latitude,
+					lng: longitude,
+					user_id: localStorage.getItem('user_id')
+					}
+										  
+			$.ajax({
+				url: 'http://thecoffeematch.com/webservice/set-location.php',
+				type: 'post',
+				data: locs,
+				success: function (data) {
+					
+				}
+			});
 		}, function(){
 			alert('Não foi possível encontrar a sua localização');
 		});
@@ -85,8 +102,7 @@ var app = {
 		//Faz request das informações dos users compatíveis
 		var dados = {
 				user_id: localStorage.getItem('user_id'),
-				distance: localStorage.getItem('distance'),
-				access_token: localStorage.getItem('token')
+				distance: localStorage.getItem('distance')
 			}
 			
 			$.ajax({
@@ -146,8 +162,7 @@ var app = {
 			//Marker da localização do user
 			var marker = new google.maps.Marker({
 				position: latLng,
-				map: map,
-				title: 'Titulo'
+				map: map
 			});
 			
 			$.ajax({
@@ -177,7 +192,7 @@ var app = {
 		});
 		
 		myApp.onPageInit('starbucks-proximas', function(){
-			
+			StatusBar.overlaysWebView(false);
 			var latLng = new google.maps.LatLng(latitude, longitude);
 			var mapOptions = {
 				center: latLng,
@@ -192,19 +207,27 @@ var app = {
 				map: map
 			});
 			
+			var latLngUser = {
+				lat_user: latitude, 
+				lng_user: longitude
+				}
+			
 			$.ajax({
 								url: 'http://thecoffeematch.com/webservice/get-starbucks-map.php',
 								type: 'post',
 								dataType: 'json',
+								data: latLngUser,
 								success: function (data) {
 									//Renderiza markers no mapa
 									for(i in data) {
+										
+																				
 										var line1 = "<li class='item-content'>"
 												+ "<div class='item-media'>"
 												+ "<img class='icon icons8-Settings-Filled' src='img/starbucks-logo.gif'  style='border-radius: 100%; margin-top: 5px; width: 60px; height: 60px'>"
 												+ "</div>"
 												+ "<div class='item-inner'>"
-												+ "<a href='#' class='item-link'>"
+												+ "<a href='#' class='item-link starbucks' id="+data[i].id+">"
 												+ "<div class='item-title'><span id='proximas-name'>"+data[i].name+"</span><br>"
 												+ "<span class='subtitle'><span id='proximas-street'>"+data[i].street+"</span>, <span id='proximas-num'>"+data[i].num+"</span> - <span id='proximas-distance'></span></span></div></div></a></li>";		
 										$("#proximas-ul").append(line1);
@@ -218,12 +241,33 @@ var app = {
 										var marker = new google.maps.Marker({
 											position: coordenadas,
 											map: map,
-											icon: 'https://d18oqubxk77ery.cloudfront.net/df/6d/23/38/imagen-starbucks-0mini_comments.jpg',
-											title: pin.name
+											icon: 'https://d18oqubxk77ery.cloudfront.net/df/6d/23/38/imagen-starbucks-0mini_comments.jpg'
 										});
 									}
+									
+									$('.starbucks').on('click touch', function(){
+				
+										var starbucks = $(this).attr("id");
+										var metaData = {
+											  match: localStorage.getItem("match"),
+											  starbucks: starbucks
+										  }
+										  
+											  $.ajax({
+																			url: 'http://thecoffeematch.com/webservice/set-starbucks.php',
+																			type: 'post',
+																			data: metaData,
+																			success: function (data) {
+																				myApp.alert("Starbucks selecionada!!!", "");
+																				
+																			}
+												});
+			});
+									
 								}
 							});
+							
+			
 			
 			
 		});
@@ -234,24 +278,25 @@ var app = {
 
 		
 		myApp.onPageInit('login', function() {
-			    StatusBar.overlaysWebView(true);
-				localStorage.clear();
-				
+			 
 				facebookConnectPlugin.browserInit("1647443792236383");	
 				
 				var fbLoginSuccess = function (userData) {
-				 facebookConnectPlugin.api("/me?fields=id, first_name, email", ["id, first_name, email"],
+				 facebookConnectPlugin.api("/me?fields=id,first_name,email, picture", ["public_profile","email"],
 					  function onSuccess (result) {
+						  /*
 						    facebookConnectPlugin.getAccessToken(function(token) {
 								console.log(token)
 								localStorage.setItem("token", token);
 								
 							 });
+							 */
+							 
 						    var person = {
 								fbid: result.id,
 								name: result.first_name,
 								email: result.email,
-								picture: 'https://graph.facebook.com/' + result.id + '/picture?type=large'
+								picture: 'https://graph.facebook.com/' + result.id + '/picture?width=350&height=350'
 							}
 							
 						  //Chamada ajax para registrar/autenticar usuário
@@ -268,10 +313,13 @@ var app = {
 										localStorage.setItem("name", result.first_name);
 										localStorage.setItem("fbid", result.id);
 										localStorage.setItem("user_id", data.user_id);
-										localStorage.setItem("email", result.email);
-										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=large');
+										localStorage.setItem("age", data.age);
+										localStorage.setItem("description", data.description);
+										localStorage.setItem("occupation", data.occupation);
+										localStorage.setItem("college", data.college);
+										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?width=350&height=350');
 										
-										mainView.router.loadPage({url: 'index.html', ignoreCache: false});
+										mainView.router.loadPage("index.html");
 										
 									} 
 									if(data.code == 2){
@@ -280,8 +328,7 @@ var app = {
 										localStorage.setItem("name", result.first_name);
 										localStorage.setItem("user_id", data.user_id);
 										localStorage.setItem("fbid", result.id);
-										localStorage.setItem("email", result.email);
-										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=large');
+										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?width=350&height=350');
 										
 										mainView.router.loadPage('passo1.html');
 									}
@@ -304,8 +351,9 @@ var app = {
 				};		
 				
 				$$('#loginFB').on('click', function(){		
-					facebookConnectPlugin.login(["public_profile, email, user_friends"], fbLoginSuccess,
+					//facebookConnectPlugin.login(["public_profile", "email", "user_friends"], fbLoginSuccess,
 					  function loginError (error) {
+					  	
 						myApp.alert(error);
 					  }
 					);
@@ -323,7 +371,17 @@ var app = {
 		myApp.onPageBeforeRemove('user', function() {
 			    StatusBar.overlaysWebView(false);		
 			});
+			
+			myApp.onPageInit('match', function() {
+			    StatusBar.overlaysWebView(true);
+	
+			});
+		
+		myApp.onPageBeforeRemove('match', function() {
+			    StatusBar.overlaysWebView(false);		
+			});
 		}
+		
 		
 	
 		

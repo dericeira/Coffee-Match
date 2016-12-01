@@ -27,7 +27,8 @@
 								type: 'post',
 								data: dados,
 								success: function (data) {
-																	
+									var shown_user_id = panes.eq(current_pane).attr("id");
+									localStorage.setItem("shown_user_id", shown_user_id);									
 								}
 								
 							});
@@ -37,24 +38,32 @@
 				
 			},
 			onLike: function(){ 
+				
 				//Faz o PUT LIKE
 				var user_id    = localStorage.getItem("user_id");
 				var shown_user_id = panes.eq(current_pane).attr("id");
-				
+				var message = localStorage.getItem("message");
+								
 				localStorage.setItem("shown_user_id", shown_user_id);
 				var dados = {
 					user_id: user_id,
 					shown_user_id: shown_user_id,
+					message: message,
 					liked: 1
 				}
 				$.ajax({
 								url: 'http://thecoffeematch.com/webservice/put-like.php',
 								type: 'post',
 								data: dados,
+								dataType: 'json',
 								success: function (data) {
 									
-									if(data === "match")	{			
+									if(data.message === "match")	{	
+										localStorage.setItem("match", data.match);
 										mainView.router.loadPage('match.html');
+									} else {	
+										var shown_user_id = panes.eq(current_pane).attr("id");
+										localStorage.setItem("shown_user_id", shown_user_id);	
 									}
 									
 								}

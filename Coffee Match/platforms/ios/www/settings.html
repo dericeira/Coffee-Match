@@ -19,19 +19,19 @@
 						<div class="card-content-inner">
 							<p style="color: #8D7A4B"><b>Receber notificações</b></p>	
 							<div style="height: 50px">
-								<p style="float: left; margin-top: 5px; font-size: 16px">Convites</p>
+								<p style="float: left; margin-top: 5px; font-size: 16px">invites</p>
 								<div class="item-input" style="float: right">
 											<label class="label-switch">
-											  <input type="checkbox">
+											  <input type="checkbox" id="check-convites" value="1" checked>
 											  <div class="checkbox"></div>
 											</label>
 								</div>
 							</div>
 							<div style="height: 50px">
-								<p style="float: left; margin-top: 5px; font-size: 16px">Mensagens</p>
+								<p style="float: left; margin-top: 5px; font-size: 16px">Messages</p>
 								<div class="item-input" style="float: right">
 											<label class="label-switch">
-											  <input type="checkbox">
+											  <input type="checkbox" id="check-mensagens" value="1" checked>
 											  <div class="checkbox"></div>
 											</label>
 								</div>
@@ -47,7 +47,7 @@
 					<div class="card-content">
 						<div class="card-content-inner">
 							<div class="range-slider">
-								<input type="range" oninput="showVal(this.value)" onchange="showVal(this.value)" min="2" max="100" step="1">
+								<input type="range" oninput="showVal(this.value)" onchange="showVal(this.value)" min="1" max="10" step="1">
 							</div>
 						</div>
 					</div>
@@ -58,7 +58,7 @@
 					
 			   </div>
 			  
-				<a href="index.html" class="button button-big button-fill external" style="border-radius: 0px; position: absolute; bottom: 0; width: 100%; background: #E3C383; color: black">SALVAR</a>
+				<a href="index.html" class="button button-big button-fill external" id="salvar" style="border-radius: 0px; position: absolute; bottom: 0; width: 100%; background: #E3C383; color: black">SALVAR</a>
 			
 		</div>
   </div>

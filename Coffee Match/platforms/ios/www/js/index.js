@@ -35,6 +35,21 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         //facebookConnectPlugin.browserInit("1647443792236383");
+
+        var notificationOpenedCallback = function(jsonData) {
+			console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+		};
+
+		window.plugins.OneSignal
+			.startInit("d7720d27-4a1b-431f-8b2f-a5090220c497")
+			.handleNotificationOpened(notificationOpenedCallback)
+			.endInit();
+
+			// Sync hashed email if you have a login system or collect it.
+			//   Will be used to reach the user at the most optimal time of day.
+			// window.plugins.OneSignal.syncHashedEmail(userEmail);
+			}, false);
+
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -291,13 +306,23 @@ var app = {
 								
 							 });
 							 */
+
+
+							
 							 
 						    var person = {
 								fbid: result.id,
 								name: result.first_name,
 								email: result.email,
-								picture: 'https://graph.facebook.com/' + result.id + '/picture?width=300&height=300'
+								picture: 'https://graph.facebook.com/' + result.id + '/picture?width=350&height=350'
 							}
+
+							//Push Notifications
+							window.plugins.OneSignal.getIds(function(ids) {
+								console.log("Notification key: " + ids.pushToken);
+								person.notification_key = ids.pushToken;
+							});
+
 							
 						  //Chamada ajax para registrar/autenticar usuário
 						  $.ajax({
@@ -317,7 +342,8 @@ var app = {
 										localStorage.setItem("description", data.description);
 										localStorage.setItem("occupation", data.occupation);
 										localStorage.setItem("college", data.college);
-										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?width=300&height=300');
+										localStorage.setItem("push_token", pushToken);
+										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?width=350&height=350');
 										
 										mainView.router.loadPage("index.html");
 										
@@ -328,7 +354,7 @@ var app = {
 										localStorage.setItem("name", result.first_name);
 										localStorage.setItem("user_id", data.user_id);
 										localStorage.setItem("fbid", result.id);
-										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?width=300&height=300');
+										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?width=350&height=350');
 										
 										mainView.router.loadPage('passo1.html');
 									}
@@ -351,7 +377,7 @@ var app = {
 				};		
 				
 				$$('#loginFB').on('click', function(){		
-					facebookConnectPlugin.login(["public_profile", "email", "user_friends"], fbLoginSuccess,
+					//facebookConnectPlugin.login(["public_profile", "email", "user_friends"], fbLoginSuccess,
 					  function loginError (error) {
 					  	
 						myApp.alert(error);

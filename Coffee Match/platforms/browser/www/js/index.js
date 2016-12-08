@@ -75,6 +75,21 @@ var app = {
 		navigator.geolocation.getCurrentPosition(function(position){
 			latitude  = position.coords.latitude;
 			longitude = position.coords.longitude;
+			
+			var locs = {
+					lat: latitude,
+					lng: longitude,
+					user_id: localStorage.getItem('user_id')
+					}
+										  
+			$.ajax({
+				url: 'http://thecoffeematch.com/webservice/set-location.php',
+				type: 'post',
+				data: locs,
+				success: function (data) {
+					
+				}
+			});
 		}, function(){
 			alert('Não foi possível encontrar a sua localização');
 		});
@@ -263,12 +278,11 @@ var app = {
 
 		
 		myApp.onPageInit('login', function() {
-			    
-				
-				//facebookConnectPlugin.browserInit("1647443792236383");	
+			 
+				facebookConnectPlugin.browserInit("1647443792236383");	
 				
 				var fbLoginSuccess = function (userData) {
-				 facebookConnectPlugin.api("/me?fields=id,first_name,email", ["public_profile","email"],
+				 facebookConnectPlugin.api("/me?fields=id,first_name,email, picture", ["public_profile","email"],
 					  function onSuccess (result) {
 						  /*
 						    facebookConnectPlugin.getAccessToken(function(token) {
@@ -277,11 +291,12 @@ var app = {
 								
 							 });
 							 */
+							 
 						    var person = {
 								fbid: result.id,
 								name: result.first_name,
 								email: result.email,
-								picture: 'https://graph.facebook.com/' + result.id + '/picture?type=large'
+								picture: 'https://graph.facebook.com/' + result.id + '/picture?width=350&height=350'
 							}
 							
 						  //Chamada ajax para registrar/autenticar usuário
@@ -302,7 +317,7 @@ var app = {
 										localStorage.setItem("description", data.description);
 										localStorage.setItem("occupation", data.occupation);
 										localStorage.setItem("college", data.college);
-										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=large');
+										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?width=350&height=350');
 										
 										mainView.router.loadPage("index.html");
 										
@@ -313,7 +328,7 @@ var app = {
 										localStorage.setItem("name", result.first_name);
 										localStorage.setItem("user_id", data.user_id);
 										localStorage.setItem("fbid", result.id);
-										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?type=large');
+										localStorage.setItem("picture", 'https://graph.facebook.com/' + result.id + '/picture?width=350&height=350');
 										
 										mainView.router.loadPage('passo1.html');
 									}
@@ -336,7 +351,7 @@ var app = {
 				};		
 				
 				$$('#loginFB').on('click', function(){		
-					facebookConnectPlugin.login(["public_profile", "email", "user_friends"], fbLoginSuccess,
+					//facebookConnectPlugin.login(["public_profile", "email", "user_friends"], fbLoginSuccess,
 					  function loginError (error) {
 					  	
 						myApp.alert(error);

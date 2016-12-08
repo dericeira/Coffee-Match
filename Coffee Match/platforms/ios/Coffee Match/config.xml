@@ -85,10 +85,16 @@
     <access origin="https://api.facebook.com" />
     <access origin="https://*.fbcdn.net" />
     <access origin="https://*.akamaihd.net" />
+    <feature name="OneSignalPush">
+        <param name="ios-package" value="OneSignalPush" />
+    </feature>
     <name>Coffee Match</name>
     <description>Hello World sample application that responds to the deviceready event.</description>
     <author email="support@phonegap.com" href="http://phonegap.com">PhoneGap Team</author>
     <content src="index.html" />
+    <vs:features>
+        <vs:feature>onesignal-cordova-plugin</vs:feature>
+    </vs:features>
     <icon src="icon.png" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

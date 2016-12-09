@@ -480,7 +480,7 @@
 				LastUpgradeCheck = 510;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = RG8LYSUZX9;
+						DevelopmentTeam = CJ3637X85L;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -635,7 +635,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "Coffee Match/Coffee Match.entitlements";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = RG8LYSUZX9;
+				DEVELOPMENT_TEAM = CJ3637X85L;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"Coffee Match/Plugins/cordova-plugin-facebook4\"",
@@ -666,7 +666,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "Coffee Match/Coffee Match.entitlements";
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = RG8LYSUZX9;
+				DEVELOPMENT_TEAM = CJ3637X85L;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"Coffee Match/Plugins/cordova-plugin-facebook4\"",

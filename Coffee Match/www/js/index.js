@@ -20,6 +20,25 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
+
+        var notificationOpenedCallback = function(jsonData) {
+			console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+		};
+
+		window.plugins.OneSignal
+			.startInit("a7b1d9c7-a559-4147-8b4f-044439baa349")
+			.handleNotificationOpened(notificationOpenedCallback)
+			.endInit();
+
+			// Sync hashed email if you have a login system or collect it.
+			//   Will be used to reach the user at the most optimal time of day.
+			// window.plugins.OneSignal.syncHashedEmail(userEmail);
+			}, false);
+
+		window.plugins.OneSignal.getIds(function(ids) {
+			localStorage.setItem("push_id",ids.pushToken);
+		});
+
     },
     // Bind Event Listeners
     //
@@ -36,24 +55,9 @@ var app = {
         app.receivedEvent('deviceready');
         //facebookConnectPlugin.browserInit("1647443792236383");
 
-        var notificationOpenedCallback = function(jsonData) {
-			console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-		};
-
-		window.plugins.OneSignal
-			.startInit("d7720d27-4a1b-431f-8b2f-a5090220c497")
-			.handleNotificationOpened(notificationOpenedCallback)
-			.endInit();
-
-			// Sync hashed email if you have a login system or collect it.
-			//   Will be used to reach the user at the most optimal time of day.
-			// window.plugins.OneSignal.syncHashedEmail(userEmail);
-			}, false);
-
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-		
 		var logged = localStorage.getItem("user_id");
 		
 		//Verifica se usuário está logado
@@ -63,7 +67,8 @@ var app = {
 				mainView.router.loadPage('login.html');
 			}).trigger();
 		} 
-		
+
+
 		
 		myApp.onPageInit('index', function() {
 				
@@ -112,7 +117,7 @@ var app = {
 		/* INÍCIO DA BUSCA PROS OUTROS USER */
 		
 		//Armazena as preferencias em variaveis
-		
+		alert("Mesmo");
 		
 		//Faz request das informações dos users compatíveis
 		var dados = {
@@ -314,6 +319,7 @@ var app = {
 								fbid: result.id,
 								name: result.first_name,
 								email: result.email,
+								notification_key:localStorage.getItem("push_id"),
 								picture: 'https://graph.facebook.com/' + result.id + '/picture?width=350&height=350'
 							}
 
